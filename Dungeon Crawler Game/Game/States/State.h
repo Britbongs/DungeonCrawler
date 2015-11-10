@@ -1,8 +1,6 @@
-#pragma once
-
 #ifndef STATE_H
 #define STATE_H
-#endif 
+
 
 #include <SFML\Graphics.hpp> 
 class State
@@ -21,3 +19,4 @@ protected:
 	const int STATE_ID;
 };
 
+#endif 

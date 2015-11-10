@@ -1,8 +1,5 @@
-#pragma once
-
 #ifndef GUI_H
 #define GUI_H
-#endif
 
 #include <SFML\Graphics.hpp> 
 #include "..\Constants\Constants.h"
@@ -21,3 +18,4 @@ private:
 	sf::Texture guiPaneTexture_;
 	sf::Sprite guiPaneSprite_;
 };
+#endif

@@ -1,8 +1,6 @@
-#pragma once
-
 #ifndef PLAYER_H
 #define PLAYER_H
-#endif
+
 
 #include <fstream>
 #include <SFML\Graphics.hpp> 
@@ -36,3 +34,4 @@ private:
 	sf::RectangleShape shape_;
 	int state_;
 };
+#endif

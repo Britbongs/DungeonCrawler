@@ -1,4 +1,7 @@
-#pragma once
+#ifndef MAPLOADER_H
+#define MAPLOADER_H 
+
+
 #include <SFML\Graphics.hpp>
 #include <fstream>
 #include <assert.h> 
@@ -30,3 +33,4 @@ private:
 	int tileSize_ = 0;
 };
 
+#endif

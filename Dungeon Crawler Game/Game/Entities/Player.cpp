@@ -100,15 +100,18 @@ void Player::update(const sf::Time& delta)
 
 void Player::handleEvents(sf::Event& evnt, const sf::Time& delta)
 {
+
+	//Huge if statement below is the movement of the player 
 	if (evnt.type == sf::Event::KeyPressed)
 	{
-		sf::FloatRect collider = sprite_.getGlobalBounds();
+		sf::FloatRect collider = sprite_.getGlobalBounds(); //Create a copy collider of the player at his location
+		
 		if (evnt.key.code == sf::Keyboard::D || evnt.key.code == sf::Keyboard::Right)
 		{
-			collider.left += TILESIZE;
-			if (map_->isPlaceFree(collider))
-				sprite_.move(TILESIZE, 0);
-			setTextureRect(W_RIGHT);
+			collider.left += TILESIZE; //Move the collider one space right
+			if (map_->isPlaceFree(collider))  //if the location this 'copy collider' is in is free
+				sprite_.move(TILESIZE, 0); //Move the player to this location 
+			setTextureRect(W_RIGHT); //Change the player sprite to face right 
 		}
 		if (evnt.key.code == sf::Keyboard::A || evnt.key.code == sf::Keyboard::Left)
 		{

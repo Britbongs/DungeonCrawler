@@ -1,8 +1,6 @@
-#pragma once
-
 #ifndef PLAYSTATE_H
 #define PLAYSTATE_H
-#endif
+
 
 #include <SFML\Graphics.hpp>
 #include <vector>
@@ -34,3 +32,4 @@ private:
 	Player* player_ = nullptr;
 	GUI* gui_ = nullptr;
 };
+#endif
