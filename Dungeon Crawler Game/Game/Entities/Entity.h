@@ -4,6 +4,8 @@
 #define ENTITY_H
 
 #include <SFML\Graphics.hpp> 
+#include "..\Utils\Animation.hpp"
+#include "..\Utils\AnimatedSprite.hpp"
 #include "..\Constants\Constants.h"
 
 class Entity

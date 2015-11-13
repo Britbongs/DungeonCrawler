@@ -15,18 +15,21 @@ bool Player::init()
 {
 	shape_.setSize(sf::Vector2f(64.f, 64.f));
 	shape_.setFillColor(sf::Color::Green);
+
 	if (!texture_.loadFromFile(gconsts::Assets::PLAYER_TEXTURE_LOCATION))
 		return(false);
 
 	if (!loadTextureRect())
 		return(false);
 
+	
+
 	sprite_.setTexture(texture_);
 	sprite_.setScale(2.f, 2.f);
 
-	shape_.setPosition(sprite_.getPosition());
+	//shape_.setPosition(sprite_.getPosition());
 
-	setTextureRect(W_DOWN);
+	//setTextureRect(W_DOWN);
 	return(true);
 }
 
@@ -95,6 +98,18 @@ void Player::render() const
 
 void Player::update(const sf::Time& delta)
 {
+	if (attacking_)
+	{
+
+		attackTime += delta;
+		printf("\n%f", attackTime.asSeconds());
+	}
+	if (attacking_ && attackTime < sf::seconds(ANIMTION_LENGTH))
+	{
+		attacking_ = false;
+		
+	}
+	
 	
 }
 
@@ -105,62 +120,76 @@ void Player::handleEvents(sf::Event& evnt, const sf::Time& delta)
 	if (evnt.type == sf::Event::KeyPressed)
 	{
 		sf::FloatRect collider = sprite_.getGlobalBounds(); //Create a copy collider of the player at his location
-		
+
 		if (evnt.key.code == sf::Keyboard::D || evnt.key.code == sf::Keyboard::Right)
 		{
 			collider.left += TILESIZE; //Move the collider one space right
+
 			if (map_->isPlaceFree(collider))  //if the location this 'copy collider' is in is free
 				sprite_.move(TILESIZE, 0); //Move the player to this location 
-			setTextureRect(W_RIGHT); //Change the player sprite to face right 
+
 		}
 		if (evnt.key.code == sf::Keyboard::A || evnt.key.code == sf::Keyboard::Left)
 		{
 			collider.left -= TILESIZE;
+
 			if (map_->isPlaceFree(collider))
 				sprite_.move(-TILESIZE, 0);
-			setTextureRect(W_LEFT);
+
 		}
 		if (evnt.key.code == sf::Keyboard::W || evnt.key.code == sf::Keyboard::Up)
 		{
 			collider.top -= TILESIZE;
+
 			if (map_->isPlaceFree(collider))
 				sprite_.move(0, -TILESIZE);
-			setTextureRect(W_UP);
+
+
+
 		}
 		if (evnt.key.code == sf::Keyboard::S || evnt.key.code == sf::Keyboard::Down)
 		{
 			collider.top += TILESIZE;
+
 			if (map_->isPlaceFree(collider))
 				sprite_.move(0, TILESIZE);
-			setTextureRect(W_DOWN);
+
+			
+
+		}
+
+		if (evnt.key.code == sf::Keyboard::X && !attacking_)
+		{
+			attacking_ = true;
 		}
 	}
 
 }
 
 void Player::setTextureRect(int state)
-{
+{/*
 	if (state == W_DOWN)
-		sprite_.setTextureRect(txtRects_.down);
+	sprite_.setTextureRect(txtRects_.down);
 
 	if (state == W_UP)
-		sprite_.setTextureRect(txtRects_.up);
+	sprite_.setTextureRect(txtRects_.up);
 
 	if (state == W_LEFT)
-		sprite_.setTextureRect(txtRects_.left);
+	sprite_.setTextureRect(txtRects_.left);
 
 	if (state == W_RIGHT)
-		sprite_.setTextureRect(txtRects_.right);
+	sprite_.setTextureRect(txtRects_.right);
 
 	if (state == A_DOWN)
-		sprite_.setTextureRect(txtRects_.attackDown);
+	sprite_.setTextureRect(txtRects_.attackDown);
 
 	if (state == A_UP)
-		sprite_.setTextureRect(txtRects_.attackUp);
+	sprite_.setTextureRect(txtRects_.attackUp);
 
 	if (state == A_LEFT)
-		sprite_.setTextureRect(txtRects_.attackLeft);
+	sprite_.setTextureRect(txtRects_.attackLeft);
 
 	if (state == A_RIGHT)
-		sprite_.setTextureRect(txtRects_.attackRight);
+	sprite_.setTextureRect(txtRects_.attackRight);
+	*/
 }

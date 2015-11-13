@@ -30,8 +30,12 @@ private:
 	const int W_DOWN = 0, W_UP = 1, W_LEFT = 2, W_RIGHT = 3; 
 	const int A_DOWN = 4, A_UP = 5, A_LEFT = 6, A_RIGHT = 7;
 	const int TILESIZE;
+	const float ANIMTION_LENGTH = 1.5f;
 	Map* map_;
 	sf::RectangleShape shape_;
+	sf::Time attackTime;
 	int state_;
+	bool attacking_ = false;
+	
 };
 #endif
