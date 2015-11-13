@@ -6,7 +6,7 @@ namespace gconsts
 {
 	namespace Window
 	{
-		static std::string SCREEN_TITLE("Mace SFML Project - INDEV");
+		static std::string SCREEN_TITLE("Dungeon Crawler - INDEV");
 		static const int WIDTH(640);
 		static const int HEIGHT(480);
 	}

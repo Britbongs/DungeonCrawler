@@ -2,7 +2,6 @@
 
 #ifndef ENTITY_H
 #define ENTITY_H
-#endif
 
 #include <SFML\Graphics.hpp> 
 #include "..\Constants\Constants.h"
@@ -24,3 +23,4 @@ protected:
 	sf::Texture texture_; 
 	sf::Sprite sprite_;
 };
+#endif

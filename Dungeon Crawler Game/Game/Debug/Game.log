@@ -1,4 +1,4 @@
-﻿Build started 10/11/2015 14:22:27.
+﻿Build started 13/11/2015 01:10:22.
      1>Project "C:\Users\Masimba\Documents\GitHub\DungeonCrawler\Dungeon Crawler Game\Game\Game.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"SFML-2.3.2\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Utils\Camera.cpp
@@ -22,4 +22,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.60
+Time Elapsed 00:00:01.25

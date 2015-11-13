@@ -23,49 +23,30 @@ void Camera::translate(const sf::Vector2f& position)
 	const sf::View gameView = renderTexture_->getView();
 
 	view.setViewport(sf::FloatRect(0, 0, ((float)GAME_WIDTH / (float)SCREEN_WIDTH), 1));
-	//view.setViewport(gameView.getViewport());
+	
+	sf::Vector2f place(position);
 
-	bool left(false), right(false), up(false), down(false);
-	sf::Vector2f bound(gameView.getCenter());
-
-	if (view.getCenter().x != gameView.getCenter().x)
-	{
-		if (view.getCenter().x < gameView.getCenter().y)
-		{
-			left = (view.getCenter().x - GAME_WIDTH / 2) > 0;
-			bound.x = view.getSize().x/4;
-		}
-		else
-		{
-			right = (view.getCenter().x + GAME_WIDTH / 2) < MAP_BOUNDS.y;
-			bound.x = MAP_BOUNDS.x - view.getSize().x / 2;
-		}
-
+	if (view.getCenter().x - (view.getSize().x / 2) < 0.f)
+	{	
+		place.x = view.getSize().x / 2;
 	}
 
-
-	if (view.getCenter().y != gameView.getCenter().y)
+	if (view.getCenter().x + (view.getSize().x / 2) > MAP_BOUNDS.x)
 	{
-		if (view.getCenter().y < gameView.getCenter().y)
-		{
-			up = (view.getCenter().x - GAME_HEIGHT / 2) > 0;
-			bound.y = view.getSize().y / 4;
-		}
-		else
-		{
-			down = (view.getCenter().y + GAME_HEIGHT / 2) < MAP_BOUNDS.y;
-			bound.y = MAP_BOUNDS.y - view.getSize().y / 2;
-		}
+		place.x = MAP_BOUNDS.x - (view.getSize().x / 2);
 	}
 
-	sf::Vector2f place;
+	if (view.getCenter().y - (view.getSize().y / 2) < 0.f)
+	{
+		place.y = view.getSize().y / 2;
+	}
 
-	left || right ? place.x = position.x : place.x = bound.x;
-	up || down ? place.y = position.y : place.y = bound.y;
+	if (view.getCenter().y + (view.getSize().y / 2) > MAP_BOUNDS.y)
+	{
+		place.y = MAP_BOUNDS.y - (view.getSize().y / 2);
+	}
 
 	view.setCenter(place);
 	renderTexture_->setView(view);
 
-
-	//TODO Write camera translation to hide black space
 }
