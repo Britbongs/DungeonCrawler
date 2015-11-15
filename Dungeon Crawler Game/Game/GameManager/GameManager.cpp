@@ -109,7 +109,7 @@ void GameManager::fpsCounter(const sf::Time& time)
 {
 	std::ostringstream os; 
 	float tempFPS = 1 / time.asSeconds();  //temporary fps value = 1/elapsed time
-	if ((fabs(tempFPS - fps_)) > 30.f) //If the difference between the previous FPS and the current fps is larger than 30.f
+	if ((fabs(tempFPS - fps_)) > 10.f) //If the difference between the previous FPS and the current fps is larger than 30.f
 	{
 		fps_ = tempFPS; //Set the fps float value to temp fps
 		os << std::setprecision(4) << fps_; //set the precision for formatting to 4 digits

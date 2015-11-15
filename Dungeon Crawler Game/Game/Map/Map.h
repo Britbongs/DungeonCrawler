@@ -7,6 +7,7 @@
 #include <SFML\Graphics.hpp> 
 #include <assert.h>
 #include <iostream>
+#include <ctime> 
 
 #define FREE '0'
 #define BLOCKED '1'
@@ -21,6 +22,7 @@ public:
 	bool isContained(sf::FloatRect);
 	bool isPointContained(sf::Vector2f) const;
 	sf::Vector2u getMapBounds() const;
+	sf::Vector2i randomFreeTile() const;
 private:
 	//TextureMap, mapBounds
 	void initVertexArray(int**);

@@ -1,23 +1,12 @@
-﻿Build started 13/11/2015 02:40:23.
+﻿Build started 15/11/2015 17:21:06.
      1>Project "C:\Users\Masimba\Documents\GitHub\DungeonCrawler\Dungeon Crawler Game\Game\Game.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"SFML-2.3.2\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Entities\Player.cpp GameManager\GameManager.cpp States\PlayState.cpp Utils\Camera.cpp main.cpp
-         Player.cpp
-     1>c:\users\masimba\documents\github\dungeoncrawler\dungeon crawler game\game\entities\player.cpp(132): warning C4244: 'argument' : conversion from 'const int' to 'float', possible loss of data
-     1>c:\users\masimba\documents\github\dungeoncrawler\dungeon crawler game\game\entities\player.cpp(141): warning C4244: 'argument' : conversion from 'const int' to 'float', possible loss of data
-     1>c:\users\masimba\documents\github\dungeoncrawler\dungeon crawler game\game\entities\player.cpp(150): warning C4244: 'argument' : conversion from 'const int' to 'float', possible loss of data
-     1>c:\users\masimba\documents\github\dungeoncrawler\dungeon crawler game\game\entities\player.cpp(160): warning C4244: 'argument' : conversion from 'const int' to 'float', possible loss of data
-         Generating Code...
-         Compiling...
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"SFML-2.3.2\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt States\PlayState.cpp
          PlayState.cpp
-         Generating Code...
-         Skipping... (no relevant changes detected)
-         main.cpp
-         Camera.cpp
-         GameManager.cpp
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Masimba\Documents\GitHub\DungeonCrawler\Dungeon Crawler Game\Debug\Game.exe" /INCREMENTAL /NOLOGO /LIBPATH:"SFML-2.3.2\lib" "sfml-graphics-d.lib" "sfml-window-d.lib" "sfml-system-d.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Masimba\Documents\GitHub\DungeonCrawler\Dungeon Crawler Game\Debug\Game.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Masimba\Documents\GitHub\DungeonCrawler\Dungeon Crawler Game\Debug\Game.lib" /MACHINE:X86 Debug\Entity.obj
          Debug\Player.obj
+         Debug\Enemy.obj
          Debug\GUI.obj
          Debug\PlayState.obj
          Debug\AnimatedSprite.obj
@@ -33,4 +22,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:02.58
+Time Elapsed 00:00:02.44

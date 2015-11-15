@@ -25,6 +25,9 @@ public:
 	void update(const sf::Time&); 
 	void handleEvents(sf::Event&, const sf::Time&);
 private: 
+	void handleCombat();
+private: 
+	bool combatActive_;
 	std::vector<Entity*> entities_;
 	Map* map_ = nullptr; 
 	MapLoader* mapLoader_ = nullptr;

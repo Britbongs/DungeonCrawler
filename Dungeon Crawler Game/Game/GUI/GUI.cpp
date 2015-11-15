@@ -34,7 +34,7 @@ void GUI::render(sf::RenderTexture& renderTexture)
 	renderTexture.setView(oldView);
 }
 
-sf::View GUI::createGUIView()const
+sf::View GUI::createGUIView() const
 {
 	sf::View guiView;
 

@@ -1,8 +1,18 @@
 #include "PlayState.h"
 
-PlayState::PlayState(int STATE_ID, sf::RenderWindow* window, sf::RenderTexture* renderTexture) : State(STATE_ID, window, renderTexture)
+std::ostream& operator<< (std::ostream& out, const Player& pa){
+	return out << pa.getPosition().x << " - " << pa.getPosition().y;
+}
+
+std::ostream& operator<< (std::ostream& out, const sf::IntRect& r)
 {
-	entities_.resize(1);
+	return out << r.left << " - " << r.top << " - " << r.width << " - " << r.height;
+}
+
+PlayState::PlayState(int STATE_ID, sf::RenderWindow* window, sf::RenderTexture* renderTexture) :
+State(STATE_ID, window, renderTexture), combatActive_(false)
+{
+	entities_.resize(4);
 }
 
 PlayState::~PlayState()
@@ -11,6 +21,7 @@ PlayState::~PlayState()
 	delete map_;
 	delete camera_;
 	delete gui_;
+	delete player_;
 	for (size_t i(0); i < entities_.size(); ++i)
 		delete entities_[i]; //Deleting all entity class pointers in the vector entities_
 }
@@ -30,15 +41,24 @@ bool PlayState::init()
 
 	map_ = new Map(mapLoader_->getTextureMap(), mapLoader_->getBlockedMap(), mapLoader_->getMapBounds(), gconsts::Gameplay::TILESIZE, tileset, mapLoader_->getScaleFactor());
 
-	entities_[0] = new Player(mapLoader_->getPlayerStart(), map_, window_, renderTexture_);
-	player_ = (Player*)(entities_[0]);
+	player_ = new Player(mapLoader_->getPlayerStart(), map_, window_, renderTexture_);
 
 	if (player_ == nullptr)
 		return(false);
 
+	if (!player_->init())
+		return(false);
+
+	entities_[0] = new Enemy(map_->randomFreeTile(), map_, "bat", window_, renderTexture_);
+
 	for (size_t i(0); i < entities_.size(); ++i)
-		if (!entities_[i]->init())
-			return(false);
+	{
+		if (entities_[i] != nullptr)
+		{
+			if (!entities_[i]->init())
+				return(false);
+		}
+	}
 
 	camera_ = new Camera(mapLoader_->getMapBounds(), renderTexture_);
 	sf::View view;
@@ -53,6 +73,12 @@ bool PlayState::init()
 	if (!gui_->init(*renderTexture_))
 		return(false);
 
+
+
+
+
+	//TODO split init into smaller functions 
+
 	return(true);
 }
 
@@ -60,23 +86,53 @@ void PlayState::render()
 {
 	renderTexture_->draw(*map_);
 	gui_->render(*renderTexture_);
+	player_->render();
 	for (size_t i(0); i < entities_.size(); ++i)
-		entities_[i]->render();
-	//printf("\n%f - %f", renderTexture_->getView().getSize().x, renderTexture_->getView().getSize().y);
+	{
+		if (entities_[i] != nullptr)
+		{
+
+			entities_[i]->render();
+		}
+	}
 }
 
 void PlayState::update(const sf::Time& delta)
 {
+	
+	player_->update(delta);
+
 	for (size_t i(0); i < entities_.size(); ++i)
-		entities_[i]->update(delta);
+	{
+		if (entities_[i] != nullptr)
+		{
+			if (player_->hasPlayerTurned() && !player_->isAttacking())
+			{
+				entities_[i]->update(delta);
+				player_->setTurn(false);
+			}
+		}
+	}
+
+
 	sf::Vector2f playerCentre(player_->getPosition().x + player_->getGlobalBounds().width / 2,
 		player_->getPosition().y + player_->getGlobalBounds().height / 2);
 
+	handleCombat();
 	camera_->translate(playerCentre);
 }
 
 void PlayState::handleEvents(sf::Event& evnt, const sf::Time& delta)
 {
-	for (size_t i(0); i < entities_.size(); ++i)
-		entities_[i]->handleEvents(evnt, delta);
+	if (!player_->hasPlayerTurned())
+		player_->handleEvents(evnt, delta);
+}
+
+void PlayState::handleCombat()
+{
+	if (player_->isAttacking() && player_->hasPlayerTurned())
+	{
+		std::cout << player_->getAttackSquare() << std::endl;
+
+	}
 }

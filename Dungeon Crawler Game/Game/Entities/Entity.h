@@ -16,7 +16,7 @@ public:
 	virtual bool init() = 0; 
 	virtual void render() const = 0; 
 	virtual void update(const sf::Time&) = 0;
-	virtual void handleEvents(sf::Event&, const sf::Time&) = 0;
+	//virtual void handleEvents(sf::Event&, const sf::Time&) = 0;
 	sf::FloatRect getGlobalBounds() const;
 	sf::Vector2f getPosition() const;
 protected: 

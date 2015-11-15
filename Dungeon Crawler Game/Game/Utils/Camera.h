@@ -9,11 +9,11 @@
 
 class Camera
 {
-public: 
+public:
 	Camera(sf::Vector2u, sf::RenderTexture*);
 	~Camera();
 	void translate(const sf::Vector2f&);
-private: 
+private:
 	const int VIEW_WIDTH, VIEW_HEIGHT;
 	sf::Vector2u MAP_BOUNDS;
 	const int TILESIZE;

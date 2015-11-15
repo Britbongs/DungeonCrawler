@@ -71,6 +71,7 @@
   <ItemGroup>
     <ClCompile Include="Entities\Entity.cpp" />
     <ClCompile Include="Entities\Player.cpp" />
+    <ClCompile Include="Entities\Enemy.cpp" />
     <ClCompile Include="GUI\GUI.cpp" />
     <ClCompile Include="States\PlayState.cpp" />
     <ClCompile Include="Utils\AnimatedSprite.cpp" />
@@ -83,6 +84,7 @@
     <ClCompile Include="Utils\Camera.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Entities\Enemy.h" />
     <ClInclude Include="Entities\Entity.h" />
     <ClInclude Include="Entities\Player.h" />
     <ClInclude Include="GUI\GUI.h" />

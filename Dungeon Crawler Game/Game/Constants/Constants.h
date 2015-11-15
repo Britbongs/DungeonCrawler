@@ -23,6 +23,7 @@ namespace gconsts
 		static const int GAME_VIEW_HEIGHT(480);
 		static const int GUI_VIEW_WIDTH(128);
 		static const int GUI_VIEW_HEIGHT(480);
+		static const std::string BAT_TYPE = "bat";
 	}
 
 	namespace Assets
@@ -31,5 +32,9 @@ namespace gconsts
 		static const std::string FONT_LOCATION("res//minecraft.ttf");
 		static const std::string PLAYER_TEXTURE_LOCATION("res//entities//fighter.png");
 		static const std::string PLAYER_TEXTURE_RECTS("res//entities//fighterrects.txt");
+	}
+	namespace AITextureRectangles
+	{
+		static const int FLAP_UP = 0, FLAP_DOWN = 1;
 	}
 }
