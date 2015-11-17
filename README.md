@@ -8,11 +8,8 @@ Special thanks to: Foaly for the SFML AnimatedSprite & Animation classes. (See l
 https://github.com/SFML/SFML/wiki/Source:-AnimatedSprite
 ----
 
-Programmers: <br>
+Programmer(s): <br>
 Alan Masimba Walker <br>
-Phil Perez <br>
-Nothile Moyo <br>
-Sam Young <br>
 
 Artist: <br>
 Aleksi Hälme
