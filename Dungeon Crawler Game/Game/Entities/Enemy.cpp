@@ -4,6 +4,8 @@ Enemy::Enemy(sf::Vector2i position, Map* map, const std::string& type, sf::Rende
 Entity(window, texture), type_(type), TILESIZE(gconsts::Gameplay::TILESIZE)
 {
 	sprite_.setPosition((float)position.x *TILESIZE, position.y * TILESIZE);
+	if (type == gconsts::Gameplay::BAT_TYPE)
+		health_ = 10;
 }
 
 Enemy::~Enemy()
@@ -17,10 +19,19 @@ bool Enemy::init()
 		return(false);
 	if (!loadSpriteTexture())
 		return(false);
+	if (!font_.loadFromFile(gconsts::Assets::FONT_LOCATION))
+		return(false);
 
 	sprite_.setTexture(texture_);
 	sprite_.setScale(2.f, 2.f);
+	text_.setFont(font_);
+	text_.setString(std::to_string(health_));
+	sf::Vector2f location(0.f, 0.f);
+	location.x = sprite_.getPosition().x + text_.getGlobalBounds().width / 1.2f;
+	location.y = sprite_.getPosition().y - text_.getCharacterSize();
+	text_.setPosition(location);
 	setTextureRect();
+
 	return(true);
 }
 
@@ -36,6 +47,7 @@ bool Enemy::loadSpriteTexture()
 
 void Enemy::render() const
 {
+	renderTexture_->draw(text_);
 	renderTexture_->draw(sprite_);
 }
 
@@ -57,7 +69,7 @@ bool Enemy::loadTextureRects()
 	}
 	else
 	{
-		
+
 
 		fromFile >> subImageCount_;
 
@@ -99,4 +111,19 @@ void Enemy::setTextureRect()
 std::string Enemy::getEnemyType() const
 {
 	return(type_);
+}
+
+void Enemy::takeDamage(int damage)
+{
+	damage = abs(damage); //prevent negative damage
+	if (health_ - damage > 0)
+		health_ -= damage;
+	else
+		health_ = 0;
+
+	text_.setString(std::to_string(health_));
+	sf::Vector2f location(0.f, 0.f);
+	location.x = sprite_.getPosition().x + text_.getGlobalBounds().width / 1.2f;
+	location.y = sprite_.getPosition().y - text_.getCharacterSize();
+	text_.setPosition(location);
 }

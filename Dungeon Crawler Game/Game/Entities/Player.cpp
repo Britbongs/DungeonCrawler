@@ -1,7 +1,8 @@
 #include "Player.h"
 
-Player::Player(sf::Vector2i startPosition, Map* map, sf::RenderWindow* window, sf::RenderTexture* renderTexture) : 
-map_(map), TILESIZE(gconsts::Gameplay::TILESIZE), Entity(window, renderTexture), attackTime(sf::seconds(0))
+Player::Player(sf::Vector2i startPosition, Map* map, sf::RenderWindow* window, sf::RenderTexture* renderTexture) :
+map_(map), TILESIZE(gconsts::Gameplay::TILESIZE), Entity(window, renderTexture), attackTime(sf::seconds(0)),
+attackDamage_(1)
 {
 	//shape_.setPosition((float)startPosition.x * TILESIZE, (float)startPosition.y * TILESIZE);
 	sprite_.setPosition((float)startPosition.x * TILESIZE, (float)startPosition.y * TILESIZE);
@@ -231,7 +232,7 @@ bool Player::isAttacking() const
 	return(attacking_);
 }
 
-sf::IntRect Player::getAttackSquare() const
+sf::IntRect Player::getAttackTileLocation() const
 {
 	sf::IntRect rect(-TILESIZE, -TILESIZE, TILESIZE, TILESIZE);
 	if (state_ == A_LEFT)
@@ -258,4 +259,9 @@ sf::IntRect Player::getAttackSquare() const
 	}
 
 	return(rect);
+}
+
+int Player::getAttackDamage() const
+{
+	return attackDamage_;
 }

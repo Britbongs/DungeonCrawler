@@ -17,6 +17,7 @@ public:
 	void render() const;
 	void update(const sf::Time&);
 	std::string getEnemyType() const;
+	void takeDamage(int);
 private:
 	void setTextureRect();
 	bool loadTextureRects();
@@ -27,7 +28,10 @@ private:
 	TextureRects rects;
 	int subImageCount_ = 0;
 	std::string type_;
+	sf::Font font_; 
+	sf::Text text_;
 	int state_;
+	int health_;
 };
 
 #endif

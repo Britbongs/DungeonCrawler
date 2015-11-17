@@ -20,8 +20,9 @@ public:
 	void handleEvents(sf::Event&, const sf::Time&);
 	bool hasPlayerTurned() const;
 	void setTurn(bool);
-	sf::IntRect getAttackSquare() const;
+	sf::IntRect getAttackTileLocation() const;
 	bool isAttacking() const;
+	int getAttackDamage() const; 
 private:
 	bool loadTextureRect();
 	void setTextureRect(int);
@@ -40,6 +41,7 @@ private:
 	sf::RectangleShape shape_;
 	sf::Time attackTime;
 	int state_;
+	int attackDamage_;
 	bool attacking_ = false;
 	bool endOfTurn_ = false;
 };

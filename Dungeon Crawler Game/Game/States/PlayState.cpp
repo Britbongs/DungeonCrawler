@@ -86,7 +86,7 @@ void PlayState::render()
 {
 	renderTexture_->draw(*map_);
 	gui_->render(*renderTexture_);
-	player_->render();
+
 	for (size_t i(0); i < entities_.size(); ++i)
 	{
 		if (entities_[i] != nullptr)
@@ -95,20 +95,24 @@ void PlayState::render()
 			entities_[i]->render();
 		}
 	}
+
+	player_->render();
 }
 
 void PlayState::update(const sf::Time& delta)
 {
-	
+
 	player_->update(delta);
 
 	for (size_t i(0); i < entities_.size(); ++i)
 	{
 		if (entities_[i] != nullptr)
 		{
-			if (player_->hasPlayerTurned() && !player_->isAttacking())
+			if (player_->hasPlayerTurned())
 			{
-				entities_[i]->update(delta);
+				if (player_->isAttacking())
+					entities_[i]->update(delta);
+				handleCombat();
 				player_->setTurn(false);
 			}
 		}
@@ -118,7 +122,7 @@ void PlayState::update(const sf::Time& delta)
 	sf::Vector2f playerCentre(player_->getPosition().x + player_->getGlobalBounds().width / 2,
 		player_->getPosition().y + player_->getGlobalBounds().height / 2);
 
-	handleCombat();
+	std::cout << std::boolalpha << player_->isAttacking() << std::endl;
 	camera_->translate(playerCentre);
 }
 
@@ -130,9 +134,34 @@ void PlayState::handleEvents(sf::Event& evnt, const sf::Time& delta)
 
 void PlayState::handleCombat()
 {
+	
 	if (player_->isAttacking() && player_->hasPlayerTurned())
 	{
-		std::cout << player_->getAttackSquare() << std::endl;
 
+		bool enemyFound(false);
+		int counter(0);
+		sf::FloatRect attackTile(player_->getAttackTileLocation().left, player_->getAttackTileLocation().top, player_->getAttackTileLocation().width, player_->getAttackTileLocation().height);
+		while (counter < entities_.size() && !enemyFound)
+		{
+			sf::Vector2f tileCentre(attackTile.left + attackTile.width / 2, attackTile.top + attackTile.height / 2);
+			if (entities_[counter]->getGlobalBounds().contains(tileCentre));
+			{
+				enemyFound = true;
+				combatEnemyIndicies.push_back(counter);
+			}
+
+		}
+	}
+
+	if (combatEnemyIndicies.size() > 0)
+	{
+		for (int i(0); i < combatEnemyIndicies.size(); ++i)
+		{
+			Enemy* e = static_cast<Enemy*> (entities_[combatEnemyIndicies[i]]);
+			if (e != nullptr)
+			{
+				e->takeDamage(player_->getAttackDamage());
+			}
+		}
 	}
 }

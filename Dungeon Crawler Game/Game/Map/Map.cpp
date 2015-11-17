@@ -121,12 +121,14 @@ sf::Vector2u Map::getMapBounds() const
 
 sf::Vector2i Map::randomFreeTile() const
 {
-	sf::Vector2i freeLoc((rand() % MAP_BOUNDS.x) + 1, (rand() % MAP_BOUNDS.y) + 1);
+	sf::Vector2i freeLoc((rand() % MAP_BOUNDS.x), (rand() % MAP_BOUNDS.y));
 
 	while (blockedMap_[freeLoc.x][freeLoc.y] == BLOCKED)
 	{
-		freeLoc.x = (rand() % MAP_BOUNDS.x) + 1;
-		freeLoc.y = (rand() % MAP_BOUNDS.y) + 1;
+		freeLoc.x = (rand() % MAP_BOUNDS.x); 
+		freeLoc.y = (rand() % MAP_BOUNDS.y);
 	}
+
+	assert(freeLoc.x < MAP_BOUNDS.x, freeLoc.y < MAP_BOUNDS.y);
 	return(freeLoc);
 }

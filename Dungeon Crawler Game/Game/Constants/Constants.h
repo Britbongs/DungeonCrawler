@@ -29,7 +29,7 @@ namespace gconsts
 	namespace Assets
 	{
 		static const std::string MAP_LOCATION("res//test.scr");
-		static const std::string FONT_LOCATION("res//minecraft.ttf");
+		static const std::string FONT_LOCATION("res//fonts//seriphim.ttf");
 		static const std::string PLAYER_TEXTURE_LOCATION("res//entities//fighter.png");
 		static const std::string PLAYER_TEXTURE_RECTS("res//entities//fighterrects.txt");
 	}
