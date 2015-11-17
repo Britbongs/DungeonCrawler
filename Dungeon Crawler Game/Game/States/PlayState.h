@@ -27,7 +27,6 @@ public:
 private: 
 	void handleCombat();
 private: 
-	bool combatActive_;
 	std::vector<Entity*> entities_;
 	std::vector<int> combatEnemyIndicies; //List of all enemy indices that are currently in combat with the player.
 	Map* map_ = nullptr; 
@@ -35,5 +34,7 @@ private:
 	Camera* camera_ = nullptr;
 	Player* player_ = nullptr;
 	GUI* gui_ = nullptr;
+	bool combatActive_; 
+	bool isPlayerCombatTurn_;
 };
 #endif

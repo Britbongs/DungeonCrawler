@@ -18,6 +18,7 @@ public:
 	void update(const sf::Time&);
 	std::string getEnemyType() const;
 	void takeDamage(int);
+	bool isAlive() const;
 private:
 	void setTextureRect();
 	bool loadTextureRects();

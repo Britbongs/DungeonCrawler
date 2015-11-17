@@ -10,7 +10,7 @@ std::ostream& operator<< (std::ostream& out, const sf::IntRect& r)
 }
 
 PlayState::PlayState(int STATE_ID, sf::RenderWindow* window, sf::RenderTexture* renderTexture) :
-State(STATE_ID, window, renderTexture), combatActive_(false)
+State(STATE_ID, window, renderTexture), combatActive_(false), isPlayerCombatTurn_(false)
 {
 	entities_.resize(4);
 }
@@ -110,7 +110,7 @@ void PlayState::update(const sf::Time& delta)
 		{
 			if (player_->hasPlayerTurned())
 			{
-				if (player_->isAttacking())
+				if (!player_->isAttacking())
 					entities_[i]->update(delta);
 				handleCombat();
 				player_->setTurn(false);
@@ -134,8 +134,9 @@ void PlayState::handleEvents(sf::Event& evnt, const sf::Time& delta)
 
 void PlayState::handleCombat()
 {
+	bool playerOkay = player_->isAttacking() && player_->hasPlayerTurned();  //Are the players requirements allowd
 	
-	if (player_->isAttacking() && player_->hasPlayerTurned())
+	if (playerOkay && !isPlayerCombatTurn_)
 	{
 
 		bool enemyFound(false);
@@ -143,24 +144,39 @@ void PlayState::handleCombat()
 		sf::FloatRect attackTile(player_->getAttackTileLocation().left, player_->getAttackTileLocation().top, player_->getAttackTileLocation().width, player_->getAttackTileLocation().height);
 		while (counter < entities_.size() && !enemyFound)
 		{
-			sf::Vector2f tileCentre(attackTile.left + attackTile.width / 2, attackTile.top + attackTile.height / 2);
-			if (entities_[counter]->getGlobalBounds().contains(tileCentre));
+		
+			if (entities_[counter] != nullptr)
 			{
-				enemyFound = true;
-				combatEnemyIndicies.push_back(counter);
+				if (entities_[counter]->getGlobalBounds().intersects(attackTile))
+				{
+
+					enemyFound = true;
+					combatEnemyIndicies.push_back(counter);
+					isPlayerCombatTurn_ = true; 
+					/* 
+					-Possible bug: 
+					Player may not be able to attack multiple targets. Re-write this implementation 
+					when necessary. 
+					*/
+				}
 			}
 
+			++counter;
 		}
 	}
 
-	if (combatEnemyIndicies.size() > 0)
+	if (combatEnemyIndicies.size() > 0 && isPlayerCombatTurn_)
 	{
 		for (int i(0); i < combatEnemyIndicies.size(); ++i)
 		{
 			Enemy* e = static_cast<Enemy*> (entities_[combatEnemyIndicies[i]]);
 			if (e != nullptr)
 			{
-				e->takeDamage(player_->getAttackDamage());
+				if (e->isAlive())
+				{
+					e->takeDamage(player_->getAttackDamage());
+				}
+				isPlayerCombatTurn_ = false;
 			}
 		}
 	}

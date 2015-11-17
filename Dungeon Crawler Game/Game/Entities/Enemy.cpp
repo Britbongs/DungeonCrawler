@@ -127,3 +127,8 @@ void Enemy::takeDamage(int damage)
 	location.y = sprite_.getPosition().y - text_.getCharacterSize();
 	text_.setPosition(location);
 }
+
+bool Enemy::isAlive() const
+{
+	return(health_ > 0);
+}
