@@ -102,15 +102,15 @@ void Player::render() const
 
 void Player::update(const sf::Time& delta)
 {
-	if (attacking_)
+	if (animationActive_)
 	{
 		attackTime += delta;
 	}
 
 
-	if (attacking_ && attackTime > sf::seconds(ANIMTION_LENGTH))
+	if (animationActive_ && attackTime > sf::seconds(ANIMTION_LENGTH))
 	{
-		attacking_ = false;
+		animationActive_ = false;
 		setTextureRect(state_ - 4);
 		attackTime = sf::seconds(0);
 	}
@@ -125,7 +125,7 @@ void Player::handleEvents(sf::Event& evnt, const sf::Time& delta)
 	if (evnt.type == sf::Event::KeyPressed)
 	{
 		sf::FloatRect collider = sprite_.getGlobalBounds(); //Create a copy collider of the player at his location
-		if (!attacking_)
+		if (!animationActive_)
 		{
 			if (evnt.key.code == sf::Keyboard::D || evnt.key.code == sf::Keyboard::Right)
 			{
@@ -171,10 +171,11 @@ void Player::handleEvents(sf::Event& evnt, const sf::Time& delta)
 			}
 		}
 
-		if (evnt.key.code == sf::Keyboard::X && !attacking_)
+		if (evnt.key.code == sf::Keyboard::X && !animationActive_)
 		{
 			setTurn(true);
 			attacking_ = true;
+			animationActive_ = true;
 			setTextureRect(state_ + 4);//Switch to the attack animation facing the same direction
 		}
 	}
@@ -186,7 +187,7 @@ void Player::setTextureRect(int state)
 	assert(state <= 7 && state >= 0);
 
 	state_ = state;
-	if (!attacking_)
+	if (!animationActive_)
 	{
 		if (state == W_DOWN)
 			sprite_.setTextureRect(txtRects_.down);
@@ -200,7 +201,7 @@ void Player::setTextureRect(int state)
 		if (state == W_RIGHT)
 			sprite_.setTextureRect(txtRects_.right);
 	}
-	if (attacking_)
+	if (animationActive_)
 	{
 		if (state == A_DOWN)
 			sprite_.setTextureRect(txtRects_.attackDown);
@@ -264,4 +265,9 @@ sf::IntRect Player::getAttackTileLocation() const
 int Player::getAttackDamage() const
 {
 	return attackDamage_;
+}
+
+void Player::endAttackTurn()
+{
+	attacking_ = false;
 }

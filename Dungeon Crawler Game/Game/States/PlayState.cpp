@@ -110,9 +110,10 @@ void PlayState::update(const sf::Time& delta)
 		{
 			if (player_->hasPlayerTurned())
 			{
-				if (!player_->isAttacking())
-					entities_[i]->update(delta);
-				handleCombat();
+				//if (!player_->isAttacking())
+				entities_[i]->update(delta);
+				if (player_->isAttacking())
+					handleCombat();
 				player_->setTurn(false);
 			}
 		}
@@ -122,7 +123,6 @@ void PlayState::update(const sf::Time& delta)
 	sf::Vector2f playerCentre(player_->getPosition().x + player_->getGlobalBounds().width / 2,
 		player_->getPosition().y + player_->getGlobalBounds().height / 2);
 
-	std::cout << std::boolalpha << player_->isAttacking() << std::endl;
 	camera_->translate(playerCentre);
 }
 
@@ -135,8 +135,9 @@ void PlayState::handleEvents(sf::Event& evnt, const sf::Time& delta)
 void PlayState::handleCombat()
 {
 	bool playerOkay = player_->isAttacking() && player_->hasPlayerTurned();  //Are the players requirements allowd
+
 	
-	if (playerOkay && !isPlayerCombatTurn_)
+	if (playerOkay)
 	{
 
 		bool enemyFound(false);
@@ -152,7 +153,6 @@ void PlayState::handleCombat()
 
 					enemyFound = true;
 					combatEnemyIndicies.push_back(counter);
-					isPlayerCombatTurn_ = true; 
 					/* 
 					-Possible bug: 
 					Player may not be able to attack multiple targets. Re-write this implementation 
@@ -165,7 +165,7 @@ void PlayState::handleCombat()
 		}
 	}
 
-	if (combatEnemyIndicies.size() > 0 && isPlayerCombatTurn_)
+	if (combatEnemyIndicies.size() > 0)
 	{
 		for (int i(0); i < combatEnemyIndicies.size(); ++i)
 		{
@@ -175,9 +175,12 @@ void PlayState::handleCombat()
 				if (e->isAlive())
 				{
 					e->takeDamage(player_->getAttackDamage());
+					std::cout << std::boolalpha << player_->isAttacking() << std::endl;
 				}
-				isPlayerCombatTurn_ = false;
+			
+
 			}
 		}
 	}
+	player_->endAttackTurn();
 }

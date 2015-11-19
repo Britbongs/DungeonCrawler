@@ -23,6 +23,7 @@ public:
 	sf::IntRect getAttackTileLocation() const;
 	bool isAttacking() const;
 	int getAttackDamage() const; 
+	void endAttackTurn();
 private:
 	bool loadTextureRect();
 	void setTextureRect(int);
@@ -44,6 +45,7 @@ private:
 	int attackDamage_;
 	bool attacking_ = false;
 	bool endOfTurn_ = false;
+	bool animationActive_ = false;
 };
 
 #endif
