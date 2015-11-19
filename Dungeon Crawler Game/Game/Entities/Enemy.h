@@ -19,6 +19,9 @@ public:
 	std::string getEnemyType() const;
 	void takeDamage(int);
 	bool isAlive() const;
+	void setCombatTarget(Entity* e = nullptr);
+	void removeTarget();
+	bool doesHaveTarget()const;
 private:
 	void setTextureRect();
 	bool loadTextureRects();
@@ -29,10 +32,12 @@ private:
 	TextureRects rects;
 	int subImageCount_ = 0;
 	std::string type_;
-	sf::Font font_; 
+	sf::Font font_;
 	sf::Text text_;
+	Entity* target_;
 	int state_;
 	int health_;
+	bool isInCombat_;
 };
 
 #endif

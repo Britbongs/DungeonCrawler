@@ -136,7 +136,7 @@ void PlayState::handleCombat()
 {
 	bool playerOkay = player_->isAttacking() && player_->hasPlayerTurned();  //Are the players requirements allowd
 
-	
+
 	if (playerOkay)
 	{
 
@@ -145,18 +145,19 @@ void PlayState::handleCombat()
 		sf::FloatRect attackTile(player_->getAttackTileLocation().left, player_->getAttackTileLocation().top, player_->getAttackTileLocation().width, player_->getAttackTileLocation().height);
 		while (counter < entities_.size() && !enemyFound)
 		{
-		
-			if (entities_[counter] != nullptr)
+			Enemy* e = static_cast<Enemy*> (entities_[counter]);
+
+			if (e != nullptr)
 			{
-				if (entities_[counter]->getGlobalBounds().intersects(attackTile))
+				if (e->getGlobalBounds().intersects(attackTile) && !e->doesHaveTarget())
 				{
 
 					enemyFound = true;
 					combatEnemyIndicies.push_back(counter);
-					/* 
-					-Possible bug: 
-					Player may not be able to attack multiple targets. Re-write this implementation 
-					when necessary. 
+					/*
+					-Possible bug:
+					Player may not be able to attack multiple targets. Re-write this implementation
+					when necessary.
 					*/
 				}
 			}
@@ -177,7 +178,7 @@ void PlayState::handleCombat()
 					e->takeDamage(player_->getAttackDamage());
 					std::cout << std::boolalpha << player_->isAttacking() << std::endl;
 				}
-			
+
 
 			}
 		}

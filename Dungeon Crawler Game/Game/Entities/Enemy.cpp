@@ -1,7 +1,7 @@
 #include "Enemy.h"
 
 Enemy::Enemy(sf::Vector2i position, Map* map, const std::string& type, sf::RenderWindow* window, sf::RenderTexture* texture) :
-Entity(window, texture), type_(type), TILESIZE(gconsts::Gameplay::TILESIZE)
+Entity(window, texture), type_(type), TILESIZE(gconsts::Gameplay::TILESIZE), target_(nullptr), isInCombat_(false)
 {
 	sprite_.setPosition((float)position.x *TILESIZE, position.y * TILESIZE);
 	if (type == gconsts::Gameplay::BAT_TYPE)
@@ -131,4 +131,21 @@ void Enemy::takeDamage(int damage)
 bool Enemy::isAlive() const
 {
 	return(health_ > 0);
+}
+
+void Enemy::setCombatTarget(Entity* e)
+{
+	assert(e != nullptr);
+	target_ = e;
+
+}
+
+void Enemy::removeTarget()
+{
+	target_ = nullptr;
+}
+
+bool Enemy::doesHaveTarget() const
+{
+	return(target_ != nullptr);
 }
