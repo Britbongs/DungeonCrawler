@@ -82,6 +82,7 @@
     <ClCompile Include="States\State.cpp" />
     <ClCompile Include="Utils\Animation.cpp" />
     <ClCompile Include="Utils\Camera.cpp" />
+    <ClCompile Include="Utils\MathUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entities\Enemy.h" />
@@ -99,6 +100,7 @@
     <ClInclude Include="States\State.h" />
     <ClInclude Include="Utils\Animation.hpp" />
     <ClInclude Include="Utils\Camera.h" />
+    <ClInclude Include="Utils\MathUtils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

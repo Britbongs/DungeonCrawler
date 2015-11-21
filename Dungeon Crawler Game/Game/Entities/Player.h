@@ -7,7 +7,9 @@
 #include "Entities.h"
 #include "..\Map\Map.h"
 #include "..\Constants\Constants.h"
+#include "..\Utils\MathUtils.h"
 #include <iostream>
+
 class Player :
 	public Entity
 {
@@ -25,8 +27,11 @@ public:
 	int getAttackDamage() const; 
 	void endAttackTurn();
 private:
-	bool loadTextureRect();
+	bool loadTextureRect(void);
 	void setTextureRect(int);
+	//Param: start value, change in value, is horizontal
+	void setupTween(float, float);
+	void resetTween(); 
 private:
 	struct TextureRects
 	{
@@ -46,6 +51,10 @@ private:
 	bool attacking_ = false;
 	bool endOfTurn_ = false;
 	bool animationActive_ = false;
+	bool tweenActive_ = false;
+	float tweenTimer_ = 0.f;
+	char direc_ = '0';
+	gconsts::UtilStruct::EntityTween tweenData_;
 };
 
 #endif

@@ -4,7 +4,9 @@ Player::Player(sf::Vector2i startPosition, Map* map, sf::RenderWindow* window, s
 map_(map), TILESIZE(gconsts::Gameplay::TILESIZE), Entity(window, renderTexture), attackTime(sf::seconds(0)),
 attackDamage_(1)
 {
-	//shape_.setPosition((float)startPosition.x * TILESIZE, (float)startPosition.y * TILESIZE);
+	shape_.setPosition((float)startPosition.x * TILESIZE, (float)startPosition.y * TILESIZE);
+	shape_.setFillColor(sf::Color::Green);
+	shape_.setSize(sf::Vector2f(64.f, 64.f));
 	sprite_.setPosition((float)startPosition.x * TILESIZE, (float)startPosition.y * TILESIZE);
 }
 
@@ -30,6 +32,8 @@ bool Player::init()
 	sprite_.setTexture(texture_);
 	setTextureRect(W_DOWN);
 	sprite_.setScale(2.f, 2.f);
+
+	tweenData_.duration = 1.f;
 
 	//shape_.setPosition(sprite_.getPosition());
 
@@ -98,6 +102,7 @@ bool Player::loadTextureRect()
 void Player::render() const
 {
 	renderTexture_->draw(sprite_);
+	renderTexture_->draw(shape_);
 }
 
 void Player::update(const sf::Time& delta)
@@ -107,6 +112,41 @@ void Player::update(const sf::Time& delta)
 		attackTime += delta;
 	}
 
+	if (tweenActive_)
+	{
+
+		//shape_.setPosition(shape_.getPosition().x + MathUtils::linearTween(tweenTimer_,startVal_, tweenX_ - startVal_, 1.f), shape_.getPosition().y);
+		sf::Vector2f position(sprite_.getPosition());
+		/*
+		switch (direc_)
+		{
+
+		case '0': position.x = position.x + MathUtils::LinearTween(tweenTimer_, tweenData_.startValue, tweenData_.delta, 1.f); break;
+		case '1': position.y = position.y + MathUtils::LinearTween(tweenTimer_, tweenData_.startValue, tweenData_.delta, 1.f); break;
+		}*/
+		if (state_ == W_LEFT)
+			position.x = (float)(position.x - MathUtils::LinearTween(tweenTimer_, tweenData_.startValue, tweenData_.delta, 1.f));
+
+		if (state_ = W_RIGHT)
+			position.x = (float)(position.x + MathUtils::LinearTween(tweenTimer_, tweenData_.startValue, tweenData_.delta, 1.f));
+
+		if (state_ == W_UP)
+			position.y = (float)(position.y - MathUtils::LinearTween(tweenTimer_, tweenData_.startValue, tweenData_.delta, 1.f));
+
+		if (state_ == W_DOWN)
+			position.y = (float) (position.y + MathUtils::LinearTween(tweenTimer_, tweenData_.startValue, tweenData_.delta, 1.f));
+
+		sprite_.setPosition(position);
+
+		std::cout << position.x / abs(position.x) << " - " << position.y / abs(position.y) << std::endl;
+
+		tweenTimer_ += delta.asSeconds();
+
+		if (tweenTimer_ > 1.f)
+		{
+			resetTween();
+		}
+	}
 
 	if (animationActive_ && attackTime > sf::seconds(ANIMTION_LENGTH))
 	{
@@ -127,13 +167,16 @@ void Player::handleEvents(sf::Event& evnt, const sf::Time& delta)
 		sf::FloatRect collider = sprite_.getGlobalBounds(); //Create a copy collider of the player at his location
 		if (!animationActive_)
 		{
+			sf::Vector2f startPos(sprite_.getPosition());
 			if (evnt.key.code == sf::Keyboard::D || evnt.key.code == sf::Keyboard::Right)
 			{
 				collider.left += TILESIZE; //Move the collider one space right
 
-				if (map_->isPlaceFree(collider))  //if the location this 'copy collider' is in is free
-					sprite_.move(TILESIZE, 0); //Move the player to this location 
-
+				if (map_->isPlaceFree(collider) && !tweenActive_)
+				{//if the location this 'copy collider' is in is free
+					//sprite_.move(TILESIZE, 0); //Move the player to this location 
+					setupTween(startPos.x, (startPos.x + TILESIZE) - startPos.x);
+				}
 				setTextureRect(W_RIGHT);
 				setTurn(true);
 			}
@@ -141,9 +184,11 @@ void Player::handleEvents(sf::Event& evnt, const sf::Time& delta)
 			{
 				collider.left -= TILESIZE;
 
-				if (map_->isPlaceFree(collider))
-					sprite_.move(-TILESIZE, 0);
-
+				if (map_->isPlaceFree(collider) && !tweenActive_)
+				{
+					//sprite_.move(-TILESIZE, 0);
+					setupTween(startPos.x, (startPos.x - TILESIZE) - startPos.x);
+				}
 				setTextureRect(W_LEFT);
 				setTurn(true);
 			}
@@ -151,9 +196,11 @@ void Player::handleEvents(sf::Event& evnt, const sf::Time& delta)
 			{
 				collider.top -= TILESIZE;
 
-				if (map_->isPlaceFree(collider))
-					sprite_.move(0, -TILESIZE);
-
+				if (map_->isPlaceFree(collider) && !tweenActive_)
+				{
+					// sprite_.move(0, -TILESIZE);
+					setupTween(startPos.y, (startPos.y - TILESIZE) - startPos.y);
+				}
 				setTextureRect(W_UP);
 				setTurn(true);
 
@@ -162,9 +209,11 @@ void Player::handleEvents(sf::Event& evnt, const sf::Time& delta)
 			{
 				collider.top += TILESIZE;
 
-				if (map_->isPlaceFree(collider))
-					sprite_.move(0, TILESIZE);
-
+				if (map_->isPlaceFree(collider) && !tweenActive_)
+				{
+					//sprite_.move(0, TILESIZE);
+					setupTween(startPos.y, (startPos.y + TILESIZE) - startPos.y);
+				}
 				setTextureRect(W_DOWN);
 				setTurn(true);
 
@@ -238,25 +287,25 @@ sf::IntRect Player::getAttackTileLocation() const
 	sf::IntRect rect(-TILESIZE, -TILESIZE, TILESIZE, TILESIZE);
 	if (state_ == A_LEFT)
 	{
-		rect.left = sprite_.getPosition().x - TILESIZE;
-		rect.top = sprite_.getPosition().y;
+		rect.left = static_cast<int>(sprite_.getPosition().x - TILESIZE);
+		rect.top = static_cast<int>(sprite_.getPosition().y);
 	}
 	if (state_ == A_RIGHT)
 	{
-		rect.left = sprite_.getPosition().x + TILESIZE;
-		rect.top = sprite_.getPosition().y;
+		rect.left = static_cast<int>(sprite_.getPosition().x + TILESIZE);
+		rect.top = static_cast<int>(sprite_.getPosition().y);
 	}
 
 	if (state_ == A_UP)
 	{
-		rect.left = sprite_.getPosition().x;
-		rect.top = sprite_.getPosition().y - TILESIZE;
+		rect.left = static_cast<int>(sprite_.getPosition().x);
+		rect.top = static_cast<int>(sprite_.getPosition().y - TILESIZE);
 	}
 
 	if (state_ == A_DOWN)
 	{
-		rect.left = sprite_.getPosition().x;
-		rect.top = sprite_.getPosition().y + TILESIZE;
+		rect.left = static_cast<int>(sprite_.getPosition().x);
+		rect.top = static_cast<int>(sprite_.getPosition().y + TILESIZE);
 	}
 
 	return(rect);
@@ -270,4 +319,20 @@ int Player::getAttackDamage() const
 void Player::endAttackTurn()
 {
 	attacking_ = false;
+}
+
+void Player::setupTween(float start, float delta)
+{
+	tweenData_.startValue = start;
+	tweenData_.delta = delta;
+	tweenActive_ = true;
+	//isHorizontal ? direc_ = '0' : direc_ = '1';
+}
+
+void Player::resetTween()
+{
+	tweenActive_ = false;
+	tweenData_.startValue = 0.f;
+	tweenData_.delta = 0.f;
+	tweenTimer_ = 0.f;
 }

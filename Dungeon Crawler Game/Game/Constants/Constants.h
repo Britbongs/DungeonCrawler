@@ -37,4 +37,14 @@ namespace gconsts
 	{
 		static const int FLAP_UP = 0, FLAP_DOWN = 1;
 	}
+	namespace UtilStruct
+	{
+		static struct EntityTween
+		{
+			float currentTime = 0.f;
+			float startValue = 0.f; 
+			float delta = 0.f;
+			float duration = 0.f;
+		};
+	}
 }
