@@ -33,7 +33,8 @@ bool Player::init()
 	setTextureRect(W_DOWN);
 	sprite_.setScale(2.f, 2.f);
 
-	tweenData_.duration = 1.f;
+	tweenData_.duration = TWEEN_LENGTH;
+
 
 	//shape_.setPosition(sprite_.getPosition());
 
@@ -113,42 +114,9 @@ void Player::update(const sf::Time& delta)
 	}
 
 	if (tweenActive_)
-	{
+		handleTween(delta);
 
-		//shape_.setPosition(shape_.getPosition().x + MathUtils::linearTween(tweenTimer_,startVal_, tweenX_ - startVal_, 1.f), shape_.getPosition().y);
-		sf::Vector2f position(sprite_.getPosition());
-		/*
-		switch (direc_)
-		{
-
-		case '0': position.x = position.x + MathUtils::LinearTween(tweenTimer_, tweenData_.startValue, tweenData_.delta, 1.f); break;
-		case '1': position.y = position.y + MathUtils::LinearTween(tweenTimer_, tweenData_.startValue, tweenData_.delta, 1.f); break;
-		}*/
-		if (state_ == W_LEFT)
-			position.x = (float)(position.x - MathUtils::LinearTween(tweenTimer_, tweenData_.startValue, tweenData_.delta, 1.f));
-
-		if (state_ = W_RIGHT)
-			position.x = (float)(position.x + MathUtils::LinearTween(tweenTimer_, tweenData_.startValue, tweenData_.delta, 1.f));
-
-		if (state_ == W_UP)
-			position.y = (float)(position.y - MathUtils::LinearTween(tweenTimer_, tweenData_.startValue, tweenData_.delta, 1.f));
-
-		if (state_ == W_DOWN)
-			position.y = (float) (position.y + MathUtils::LinearTween(tweenTimer_, tweenData_.startValue, tweenData_.delta, 1.f));
-
-		sprite_.setPosition(position);
-
-		std::cout << position.x / abs(position.x) << " - " << position.y / abs(position.y) << std::endl;
-
-		tweenTimer_ += delta.asSeconds();
-
-		if (tweenTimer_ > 1.f)
-		{
-			resetTween();
-		}
-	}
-
-	if (animationActive_ && attackTime > sf::seconds(ANIMTION_LENGTH))
+	if (animationActive_ && attackTime > sf::seconds(ANIMATION_LENGTH))
 	{
 		animationActive_ = false;
 		setTextureRect(state_ - 4);
@@ -176,6 +144,7 @@ void Player::handleEvents(sf::Event& evnt, const sf::Time& delta)
 				{//if the location this 'copy collider' is in is free
 					//sprite_.move(TILESIZE, 0); //Move the player to this location 
 					setupTween(startPos.x, (startPos.x + TILESIZE) - startPos.x);
+					direc_ = '0';
 				}
 				setTextureRect(W_RIGHT);
 				setTurn(true);
@@ -186,8 +155,9 @@ void Player::handleEvents(sf::Event& evnt, const sf::Time& delta)
 
 				if (map_->isPlaceFree(collider) && !tweenActive_)
 				{
-					//sprite_.move(-TILESIZE, 0);
+					
 					setupTween(startPos.x, (startPos.x - TILESIZE) - startPos.x);
+					direc_ = '0';
 				}
 				setTextureRect(W_LEFT);
 				setTurn(true);
@@ -198,8 +168,8 @@ void Player::handleEvents(sf::Event& evnt, const sf::Time& delta)
 
 				if (map_->isPlaceFree(collider) && !tweenActive_)
 				{
-					// sprite_.move(0, -TILESIZE);
 					setupTween(startPos.y, (startPos.y - TILESIZE) - startPos.y);
+					direc_ = '1';
 				}
 				setTextureRect(W_UP);
 				setTurn(true);
@@ -211,8 +181,8 @@ void Player::handleEvents(sf::Event& evnt, const sf::Time& delta)
 
 				if (map_->isPlaceFree(collider) && !tweenActive_)
 				{
-					//sprite_.move(0, TILESIZE);
 					setupTween(startPos.y, (startPos.y + TILESIZE) - startPos.y);
+					direc_ = '1';
 				}
 				setTextureRect(W_DOWN);
 				setTurn(true);
@@ -331,8 +301,38 @@ void Player::setupTween(float start, float delta)
 
 void Player::resetTween()
 {
+	sf::Vector2f pos(sprite_.getPosition());
+
+	switch (direc_)
+	{
+	case '0': pos.x = (tweenData_.startValue + tweenData_.delta); break; 
+	case '1': pos.y = (tweenData_.startValue + tweenData_.delta); break;
+	}
+	
+	sprite_.setPosition(pos);
 	tweenActive_ = false;
 	tweenData_.startValue = 0.f;
 	tweenData_.delta = 0.f;
 	tweenTimer_ = 0.f;
+}
+
+void Player::handleTween(const sf::Time& delta)
+{
+	sf::Vector2f position(sprite_.getPosition());
+
+	switch (direc_)
+	{
+	case '0': position.x = roundf(MathUtils::LinearTweenPosition(tweenTimer_, tweenData_.startValue, tweenData_.delta, tweenData_.duration)); break;
+	case '1': position.y = roundf(MathUtils::LinearTweenPosition(tweenTimer_, tweenData_.startValue, tweenData_.delta, tweenData_.duration)); break;
+	}
+	sprite_.setPosition(position);
+
+	//std::cout << position.x / abs(position.x) << " - " << position.y / abs(position.y) << std::endl;
+	std::cout << MathUtils::LinearTweenPosition(tweenTimer_, tweenData_.startValue, tweenData_.delta, tweenData_.duration) << std::endl;
+	tweenTimer_ += delta.asSeconds();
+
+	if (tweenTimer_ > TWEEN_LENGTH)
+	{
+		resetTween();
+	}
 }

@@ -24,14 +24,15 @@ public:
 	void setTurn(bool);
 	sf::IntRect getAttackTileLocation() const;
 	bool isAttacking() const;
-	int getAttackDamage() const; 
+	int getAttackDamage() const;
 	void endAttackTurn();
 private:
 	bool loadTextureRect(void);
 	void setTextureRect(int);
 	//Param: start value, change in value, is horizontal
+	void handleTween(const sf::Time&);
 	void setupTween(float, float);
-	void resetTween(); 
+	void resetTween();
 private:
 	struct TextureRects
 	{
@@ -42,7 +43,8 @@ private:
 	const int W_DOWN = 0, W_UP = 1, W_LEFT = 2, W_RIGHT = 3;
 	const int A_DOWN = 4, A_UP = 5, A_LEFT = 6, A_RIGHT = 7;
 	const int TILESIZE;
-	const float ANIMTION_LENGTH = 0.5f;
+	const float ANIMATION_LENGTH = 0.5f;
+	const float TWEEN_LENGTH = 0.3f;
 	Map* map_;
 	sf::RectangleShape shape_;
 	sf::Time attackTime;

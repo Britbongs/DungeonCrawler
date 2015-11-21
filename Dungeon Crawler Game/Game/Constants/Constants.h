@@ -39,7 +39,7 @@ namespace gconsts
 	}
 	namespace UtilStruct
 	{
-		static struct EntityTween
+		struct EntityTween
 		{
 			float currentTime = 0.f;
 			float startValue = 0.f; 
