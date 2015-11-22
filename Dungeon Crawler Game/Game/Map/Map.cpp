@@ -74,7 +74,7 @@ bool Map::isPlaceFree(sf::FloatRect collider)
 	{
 		for (int j(0); j < MAP_BOUNDS.y; ++j)
 		{
-			if (sf::FloatRect(i * TILESIZE, j * TILESIZE, TILESIZE, TILESIZE).intersects(collider) && blockedMap_[i][j] == BLOCKED)
+			if (sf::FloatRect(i * TILESIZE, j * TILESIZE, TILESIZE, TILESIZE).intersects(collider) && (blockedMap_[i][j] == BLOCKED || blockedMap_[i][j] == ENEMY))
 			{
 				return(false);
 			}
@@ -131,4 +131,14 @@ sf::Vector2i Map::randomFreeTile() const
 
 	assert(freeLoc.x < MAP_BOUNDS.x, freeLoc.y < MAP_BOUNDS.y);
 	return(freeLoc);
+}
+
+void Map::setTileEnemyBlocked(sf::Vector2i tile)
+{
+	blockedMap_[tile.x][tile.y] = ENEMY;
+}
+
+void Map::setTileUnblocked(sf::Vector2i tile)
+{
+	blockedMap_[tile.x][tile.y] = FREE;
 }

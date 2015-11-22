@@ -14,7 +14,7 @@ public:
 	~Camera();
 	void translate(const sf::Vector2f&);
 private:
-	const int VIEW_WIDTH, VIEW_HEIGHT;
+	const float VIEW_WIDTH, VIEW_HEIGHT;
 	sf::Vector2u MAP_BOUNDS;
 	const int TILESIZE;
 	sf::RenderTexture* renderTexture_ = nullptr;

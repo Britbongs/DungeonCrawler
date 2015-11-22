@@ -8,9 +8,8 @@
 #include <assert.h>
 #include <iostream>
 #include <ctime> 
+#include "..\Constants\Constants.h"
 
-#define FREE '0'
-#define BLOCKED '1'
 class Map :
 	public sf::Drawable, public sf::Transformable
 {
@@ -23,6 +22,8 @@ public:
 	bool isPointContained(sf::Vector2f) const;
 	sf::Vector2u getMapBounds() const;
 	sf::Vector2i randomFreeTile() const;
+	void setTileEnemyBlocked(sf::Vector2i);
+	void setTileUnblocked(sf::Vector2i);
 private:
 	//TextureMap, mapBounds
 	void initVertexArray(int**);

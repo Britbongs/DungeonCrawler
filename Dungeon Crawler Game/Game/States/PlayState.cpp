@@ -142,7 +142,7 @@ void PlayState::handleCombat()
 
 		bool enemyFound(false);
 		int counter(0);
-		sf::FloatRect attackTile(player_->getAttackTileLocation().left, player_->getAttackTileLocation().top, player_->getAttackTileLocation().width, player_->getAttackTileLocation().height);
+		sf::FloatRect attackTile(Utils::intRectToFloatRect(player_->getAttackTileLocation()));
 		while (counter < entities_.size() && !enemyFound)
 		{
 			Enemy* e = static_cast<Enemy*> (entities_[counter]);

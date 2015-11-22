@@ -1,7 +1,7 @@
 #include "Camera.h"
 
 Camera::Camera(sf::Vector2u MAP_BOUNDS, sf::RenderTexture* renderTexture) :
-renderTexture_(renderTexture), TILESIZE(gconsts::Gameplay::TILESIZE), VIEW_WIDTH(gconsts::Gameplay::GAME_VIEW_WIDTH), VIEW_HEIGHT(gconsts::Gameplay::GAME_VIEW_HEIGHT)
+renderTexture_(renderTexture), TILESIZE(gconsts::Gameplay::TILESIZE), VIEW_WIDTH(static_cast<float>( gconsts::Gameplay::GAME_VIEW_WIDTH)), VIEW_HEIGHT(static_cast<float>(gconsts::Gameplay::GAME_VIEW_HEIGHT))
 {
 	Camera::MAP_BOUNDS = sf::Vector2u(MAP_BOUNDS.x * TILESIZE, MAP_BOUNDS.y * TILESIZE);
 }

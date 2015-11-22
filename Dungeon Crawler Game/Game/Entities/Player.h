@@ -44,7 +44,7 @@ private:
 	const int A_DOWN = 4, A_UP = 5, A_LEFT = 6, A_RIGHT = 7;
 	const int TILESIZE;
 	const float ANIMATION_LENGTH = 0.5f;
-	const float TWEEN_LENGTH = 0.3f;
+	const float TWEEN_LENGTH = 0.25f;
 	Map* map_;
 	sf::RectangleShape shape_;
 	sf::Time attackTime;

@@ -1,6 +1,13 @@
-#pragma once
+
+#ifndef CONSTANTS_H
+#define CONSTANTS_H
+
 #include <SFML\Graphics.hpp> 
 #include <string> 
+
+#define FREE '0'
+#define BLOCKED '1'
+#define ENEMY '2'
 
 namespace gconsts
 {
@@ -33,18 +40,22 @@ namespace gconsts
 		static const std::string PLAYER_TEXTURE_LOCATION("res//entities//fighter.png");
 		static const std::string PLAYER_TEXTURE_RECTS("res//entities//fighterrects.txt");
 	}
+
 	namespace AITextureRectangles
 	{
 		static const int FLAP_UP = 0, FLAP_DOWN = 1;
 	}
+
 	namespace UtilStruct
 	{
 		struct EntityTween
 		{
 			float currentTime = 0.f;
-			float startValue = 0.f; 
+			float startValue = 0.f;
 			float delta = 0.f;
 			float duration = 0.f;
 		};
 	}
 }
+
+#endif

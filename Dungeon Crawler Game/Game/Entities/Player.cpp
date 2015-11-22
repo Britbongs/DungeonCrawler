@@ -103,7 +103,7 @@ bool Player::loadTextureRect()
 void Player::render() const
 {
 	renderTexture_->draw(sprite_);
-	renderTexture_->draw(shape_);
+	//renderTexture_->draw(shape_);
 }
 
 void Player::update(const sf::Time& delta)
@@ -328,7 +328,7 @@ void Player::handleTween(const sf::Time& delta)
 	sprite_.setPosition(position);
 
 	//std::cout << position.x / abs(position.x) << " - " << position.y / abs(position.y) << std::endl;
-	std::cout << MathUtils::LinearTweenPosition(tweenTimer_, tweenData_.startValue, tweenData_.delta, tweenData_.duration) << std::endl;
+	
 	tweenTimer_ += delta.asSeconds();
 
 	if (tweenTimer_ > TWEEN_LENGTH)

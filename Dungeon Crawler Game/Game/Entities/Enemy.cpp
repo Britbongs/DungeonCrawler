@@ -3,7 +3,8 @@
 Enemy::Enemy(sf::Vector2i position, Map* map, const std::string& type, sf::RenderWindow* window, sf::RenderTexture* texture) :
 Entity(window, texture), type_(type), TILESIZE(gconsts::Gameplay::TILESIZE), target_(nullptr), isInCombat_(false)
 {
-	sprite_.setPosition((float)position.x *TILESIZE, position.y * TILESIZE);
+	sprite_.setPosition(static_cast<float> (position.x * TILESIZE), static_cast<float>(position.y * TILESIZE));
+	map->setTileEnemyBlocked(position);
 	if (type == gconsts::Gameplay::BAT_TYPE)
 		health_ = 10;
 }
@@ -24,13 +25,20 @@ bool Enemy::init()
 
 	sprite_.setTexture(texture_);
 	sprite_.setScale(2.f, 2.f);
-	text_.setFont(font_);
-	text_.setString(std::to_string(health_));
-	sf::Vector2f location(0.f, 0.f);
-	location.x = sprite_.getPosition().x + text_.getGlobalBounds().width / 1.2f;
-	location.y = sprite_.getPosition().y - text_.getCharacterSize();
-	text_.setPosition(location);
 	setTextureRect();
+
+	text_.setFont(font_);
+	text_.setCharacterSize(12);
+	text_.setString(std::to_string(health_));
+	float textWidth = static_cast<float> (text_.getCharacterSize() * text_.getString().getSize());
+
+	sf::Vector2f location(0.f, 0.f);
+
+	location.x = (sprite_.getPosition().x + sprite_.getGlobalBounds().width / 2) - textWidth / 2.3f;
+	location.y = sprite_.getPosition().y - text_.getCharacterSize();
+
+	text_.setPosition(location);
+
 
 	return(true);
 }
@@ -75,7 +83,7 @@ bool Enemy::loadTextureRects()
 
 		rects.rects = new sf::IntRect[subImageCount_];
 
-		for (size_t i(0); i < subImageCount_; ++i)
+		for (size_t i(0); i < static_cast<unsigned> (subImageCount_); ++i)
 		{
 			fromFile >> rects.rects[i].left;
 			fromFile >> rects.rects[i].top;
