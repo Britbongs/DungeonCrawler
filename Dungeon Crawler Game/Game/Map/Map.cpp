@@ -70,16 +70,25 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 bool Map::isPlaceFree(sf::FloatRect collider)
 {
+	sf::FloatRect temp(0 * TILESIZE, 0 * TILESIZE, TILESIZE, TILESIZE); 
 	for (int i(0); i < MAP_BOUNDS.x; ++i)
 	{
 		for (int j(0); j < MAP_BOUNDS.y; ++j)
 		{
-			if (sf::FloatRect(i * TILESIZE, j * TILESIZE, TILESIZE, TILESIZE).intersects(collider) && (blockedMap_[i][j] == BLOCKED || blockedMap_[i][j] == ENEMY))
+			temp.left =  (i * TILESIZE); 
+			temp.top= (j * TILESIZE);
+			if (temp.intersects(collider) && (blockedMap_[i][j] == BLOCKED || blockedMap_[i][j] == ENEMY))
 			{
+				blockedTile_.blocked = true; 
+				blockedTile_.bounds = temp; 
+				blockedTile_.value = blockedMap_[i][j];
 				return(false);
 			}
 		}
 	}
+	blockedTile_.blocked = false; 
+	blockedTile_.bounds = temp; 
+	blockedTile_.value = FREE;
 	return(true);
 }
 
@@ -125,7 +134,7 @@ sf::Vector2i Map::randomFreeTile() const
 
 	while (blockedMap_[freeLoc.x][freeLoc.y] == BLOCKED)
 	{
-		freeLoc.x = (rand() % MAP_BOUNDS.x); 
+		freeLoc.x = (rand() % MAP_BOUNDS.x);
 		freeLoc.y = (rand() % MAP_BOUNDS.y);
 	}
 
@@ -141,4 +150,9 @@ void Map::setTileEnemyBlocked(sf::Vector2i tile)
 void Map::setTileUnblocked(sf::Vector2i tile)
 {
 	blockedMap_[tile.x][tile.y] = FREE;
+}
+
+TileData Map::getBlockedTileData() const
+{
+	return(blockedTile_);
 }

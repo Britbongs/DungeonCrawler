@@ -29,10 +29,11 @@ public:
 private:
 	bool loadTextureRect(void);
 	void setTextureRect(int);
-	//Param: start value, change in value, is horizontal
 	void handleTween(const sf::Time&);
+	//Param: start value, change in value
 	void setupTween(float, float);
 	void resetTween();
+	sf::IntRect getAutoMeleeSquare()const;
 private:
 	struct TextureRects
 	{

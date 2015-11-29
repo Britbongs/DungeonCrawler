@@ -10,6 +10,8 @@
 #include <ctime> 
 #include "..\Constants\Constants.h"
 
+using namespace gconsts::UtilStruct;
+
 class Map :
 	public sf::Drawable, public sf::Transformable
 {
@@ -24,6 +26,7 @@ public:
 	sf::Vector2i randomFreeTile() const;
 	void setTileEnemyBlocked(sf::Vector2i);
 	void setTileUnblocked(sf::Vector2i);
+	TileData getBlockedTileData() const; 
 private:
 	//TextureMap, mapBounds
 	void initVertexArray(int**);
@@ -35,6 +38,6 @@ private:
 	char** blockedMap_;
 	const float TEXTURE_TILESIZE; //Original texture tile size before being scaled
 	sf::VertexArray mapVertexArray_;
-
+	TileData blockedTile_; 
 };
 

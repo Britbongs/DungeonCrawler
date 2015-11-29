@@ -55,7 +55,14 @@ namespace gconsts
 			float delta = 0.f;
 			float duration = 0.f;
 		};
+		struct TileData
+		{
+			bool blocked; 
+			char value;
+			sf::FloatRect bounds;
+		};
 	}
+
 }
 
 #endif

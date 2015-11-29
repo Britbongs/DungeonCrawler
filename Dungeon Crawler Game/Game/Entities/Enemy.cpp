@@ -1,7 +1,7 @@
 #include "Enemy.h"
 
-Enemy::Enemy(sf::Vector2i position, Map* map, const std::string& type, sf::RenderWindow* window, sf::RenderTexture* texture) :
-Entity(window, texture), type_(type), TILESIZE(gconsts::Gameplay::TILESIZE), target_(nullptr), isInCombat_(false)
+Enemy::Enemy(int id,  sf::Vector2i position, Map* map, const std::string& type, sf::RenderWindow* window, sf::RenderTexture* texture) :
+Entity(window, texture), type_(type), TILESIZE(gconsts::Gameplay::TILESIZE), target_(nullptr), isInCombat_(false), id_(id)
 {
 	sprite_.setPosition(static_cast<float> (position.x * TILESIZE), static_cast<float>(position.y * TILESIZE));
 	map->setTileEnemyBlocked(position);
@@ -30,15 +30,7 @@ bool Enemy::init()
 	text_.setFont(font_);
 	text_.setCharacterSize(12);
 	text_.setString(std::to_string(health_));
-	float textWidth = static_cast<float> (text_.getCharacterSize() * text_.getString().getSize());
-
-	sf::Vector2f location(0.f, 0.f);
-
-	location.x = (sprite_.getPosition().x + sprite_.getGlobalBounds().width / 2) - textWidth / 2.3f;
-	location.y = sprite_.getPosition().y - text_.getCharacterSize();
-
-	text_.setPosition(location);
-
+	setTextPos();
 
 	return(true);
 }
@@ -130,10 +122,7 @@ void Enemy::takeDamage(int damage)
 		health_ = 0;
 
 	text_.setString(std::to_string(health_));
-	sf::Vector2f location(0.f, 0.f);
-	location.x = sprite_.getPosition().x + text_.getGlobalBounds().width / 1.2f;
-	location.y = sprite_.getPosition().y - text_.getCharacterSize();
-	text_.setPosition(location);
+	setTextPos();
 }
 
 bool Enemy::isAlive() const
@@ -156,4 +145,21 @@ void Enemy::removeTarget()
 bool Enemy::doesHaveTarget() const
 {
 	return(target_ != nullptr);
+}
+
+void Enemy::setTextPos()
+{
+	float textWidth = static_cast<float> (text_.getCharacterSize() * text_.getString().getSize());
+
+	sf::Vector2f location(0.f, 0.f);
+
+	location.x = (sprite_.getPosition().x + sprite_.getGlobalBounds().width / 2) - textWidth / 2.3f;
+	location.y = sprite_.getPosition().y - text_.getCharacterSize();
+	
+	text_.setPosition(location);
+}
+
+int Enemy::getEnemyID() const
+{
+	return(id_);
 }

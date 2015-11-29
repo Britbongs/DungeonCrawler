@@ -5,7 +5,13 @@ map_(map), TILESIZE(gconsts::Gameplay::TILESIZE), Entity(window, renderTexture),
 attackDamage_(1)
 {
 	shape_.setPosition((float)startPosition.x * TILESIZE, (float)startPosition.y * TILESIZE);
-	shape_.setFillColor(sf::Color::Green);
+	sf::Color col;
+	col.r = sf::Color::Green.r;
+	col.g = sf::Color::Green.g;
+	col.b = sf::Color::Green.b;
+	col.a = 25.f;
+
+	shape_.setFillColor(col);
 	shape_.setSize(sf::Vector2f(64.f, 64.f));
 	sprite_.setPosition((float)startPosition.x * TILESIZE, (float)startPosition.y * TILESIZE);
 }
@@ -19,7 +25,7 @@ Player::~Player()
 bool Player::init()
 {
 	shape_.setSize(sf::Vector2f(64.f, 64.f));
-	shape_.setFillColor(sf::Color::Green);
+	//shape_.setFillColor(sf::Color::Green);
 
 	if (!texture_.loadFromFile(gconsts::Assets::PLAYER_TEXTURE_LOCATION))
 		return(false);
@@ -103,7 +109,7 @@ bool Player::loadTextureRect()
 void Player::render() const
 {
 	renderTexture_->draw(sprite_);
-	//renderTexture_->draw(shape_);
+	renderTexture_->draw(shape_);
 }
 
 void Player::update(const sf::Time& delta)
@@ -139,53 +145,78 @@ void Player::handleEvents(sf::Event& evnt, const sf::Time& delta)
 			if (evnt.key.code == sf::Keyboard::D || evnt.key.code == sf::Keyboard::Right)
 			{
 				collider.left += TILESIZE; //Move the collider one space right
-
+				if (!tweenActive_)
+					setTextureRect(W_RIGHT);
+				setTurn(true);
 				if (map_->isPlaceFree(collider) && !tweenActive_)
 				{//if the location this 'copy collider' is in is free
 					//sprite_.move(TILESIZE, 0); //Move the player to this location 
 					setupTween(startPos.x, (startPos.x + TILESIZE) - startPos.x);
 					direc_ = '0';
 				}
-				setTextureRect(W_RIGHT);
-				setTurn(true);
+				else
+				{
+					if (map_->getBlockedTileData().value == ENEMY)
+						shape_.setPosition(getAutoMeleeSquare().left, getAutoMeleeSquare().top);
+				}
+
 			}
 			if (evnt.key.code == sf::Keyboard::A || evnt.key.code == sf::Keyboard::Left)
 			{
 				collider.left -= TILESIZE;
-
+				if (!tweenActive_)
+					setTextureRect(W_LEFT);
+				setTurn(true);
 				if (map_->isPlaceFree(collider) && !tweenActive_)
 				{
-					
+
 					setupTween(startPos.x, (startPos.x - TILESIZE) - startPos.x);
 					direc_ = '0';
 				}
-				setTextureRect(W_LEFT);
-				setTurn(true);
+				else
+				{
+					if (map_->getBlockedTileData().value == ENEMY)
+						shape_.setPosition(getAutoMeleeSquare().left, getAutoMeleeSquare().top);
+
+				}
+
 			}
 			if (evnt.key.code == sf::Keyboard::W || evnt.key.code == sf::Keyboard::Up)
 			{
 				collider.top -= TILESIZE;
-
+				if (!tweenActive_)
+					setTextureRect(W_UP);
+				setTurn(true);
 				if (map_->isPlaceFree(collider) && !tweenActive_)
 				{
 					setupTween(startPos.y, (startPos.y - TILESIZE) - startPos.y);
 					direc_ = '1';
 				}
-				setTextureRect(W_UP);
-				setTurn(true);
+				else
+				{
+					if (map_->getBlockedTileData().value == ENEMY)
+						shape_.setPosition(getAutoMeleeSquare().left, getAutoMeleeSquare().top);
+				}
+
 
 			}
 			if (evnt.key.code == sf::Keyboard::S || evnt.key.code == sf::Keyboard::Down)
 			{
 				collider.top += TILESIZE;
-
+				if (!tweenActive_)
+					setTextureRect(W_DOWN);
+				setTurn(true);
 				if (map_->isPlaceFree(collider) && !tweenActive_)
 				{
 					setupTween(startPos.y, (startPos.y + TILESIZE) - startPos.y);
 					direc_ = '1';
 				}
-				setTextureRect(W_DOWN);
-				setTurn(true);
+				else
+				{
+					if (map_->getBlockedTileData().value == ENEMY)
+						shape_.setPosition(getAutoMeleeSquare().left, getAutoMeleeSquare().top);
+				}
+
 
 			}
 		}
@@ -305,10 +336,10 @@ void Player::resetTween()
 
 	switch (direc_)
 	{
-	case '0': pos.x = (tweenData_.startValue + tweenData_.delta); break; 
+	case '0': pos.x = (tweenData_.startValue + tweenData_.delta); break;
 	case '1': pos.y = (tweenData_.startValue + tweenData_.delta); break;
 	}
-	
+
 	sprite_.setPosition(pos);
 	tweenActive_ = false;
 	tweenData_.startValue = 0.f;
@@ -328,11 +359,40 @@ void Player::handleTween(const sf::Time& delta)
 	sprite_.setPosition(position);
 
 	//std::cout << position.x / abs(position.x) << " - " << position.y / abs(position.y) << std::endl;
-	
+
 	tweenTimer_ += delta.asSeconds();
 
 	if (tweenTimer_ > TWEEN_LENGTH)
 	{
 		resetTween();
 	}
+}
+
+sf::IntRect Player::getAutoMeleeSquare() const
+{
+	sf::IntRect meleeSquare(0, 0, TILESIZE, TILESIZE);
+	if (state_ == W_LEFT)
+	{
+		meleeSquare.left = static_cast<int>(sprite_.getPosition().x - TILESIZE);
+		meleeSquare.top = static_cast<int>(sprite_.getPosition().y);
+	}
+	else if (state_ == W_RIGHT)
+	{
+		meleeSquare.left = static_cast<int>(sprite_.getPosition().x + TILESIZE);
+		meleeSquare.top = static_cast<int>(sprite_.getPosition().y);
+	}
+	else if (state_ == W_UP)
+	{
+		meleeSquare.left = static_cast<int>(sprite_.getPosition().x);
+		meleeSquare.top = static_cast<int>(sprite_.getPosition().y - TILESIZE);
+	}
+	else
+	{
+		meleeSquare.left = static_cast<int>(sprite_.getPosition().x);
+		meleeSquare.top = static_cast<int>(sprite_.getPosition().y) + TILESIZE;
+	}
+
+
+
+	return(meleeSquare);
 }

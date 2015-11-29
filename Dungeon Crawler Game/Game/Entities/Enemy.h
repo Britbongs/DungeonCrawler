@@ -11,7 +11,7 @@ class Enemy :
 	public Entity
 {
 public:
-	Enemy(sf::Vector2i, Map*, const std::string&, sf::RenderWindow*, sf::RenderTexture*);
+	Enemy(int, sf::Vector2i, Map*, const std::string&, sf::RenderWindow*, sf::RenderTexture*);
 	~Enemy();
 	bool init();
 	void render() const;
@@ -21,11 +21,13 @@ public:
 	bool isAlive() const;
 	void setCombatTarget(Entity* e = nullptr);
 	void removeTarget();
-	bool doesHaveTarget()const;
+	bool doesHaveTarget() const;
+	int getEnemyID() const; 
 private:
 	void setTextureRect();
 	bool loadTextureRects();
 	bool loadSpriteTexture();
+	void setTextPos();
 	struct TextureRects{ sf::IntRect* rects; };
 private:
 	const int TILESIZE;
@@ -37,6 +39,7 @@ private:
 	Entity* target_;
 	int state_;
 	int health_;
+	int id_;
 	bool isInCombat_;
 };
 

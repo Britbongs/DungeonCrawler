@@ -49,7 +49,10 @@ bool PlayState::init()
 	if (!player_->init())
 		return(false);
 
-	entities_[0] = new Enemy(map_->randomFreeTile(), map_, "bat", window_, renderTexture_);
+	entities_[0] = new Enemy(0, map_->randomFreeTile(), map_, "bat", window_, renderTexture_);
+	entities_[1] = new Enemy(1, map_->randomFreeTile(), map_, "bat", window_, renderTexture_);
+	entities_[2] = new Enemy(2, map_->randomFreeTile(), map_, "bat", window_, renderTexture_);
+	entities_[3] = new Enemy(3, map_->randomFreeTile(), map_, "bat", window_, renderTexture_);
 
 	for (size_t i(0); i < entities_.size(); ++i)
 	{
@@ -103,22 +106,19 @@ void PlayState::update(const sf::Time& delta)
 {
 
 	player_->update(delta);
-
-	for (size_t i(0); i < entities_.size(); ++i)
+	if (player_->hasPlayerTurned())
 	{
-		if (entities_[i] != nullptr)
+		for (size_t i(0); i < entities_.size(); ++i)
 		{
-			if (player_->hasPlayerTurned())
+			if (entities_[i] != nullptr)
 			{
-				//if (!player_->isAttacking())
 				entities_[i]->update(delta);
 				if (player_->isAttacking())
 					handleCombat();
-				player_->setTurn(false);
 			}
 		}
+		player_->setTurn(false);
 	}
-
 
 	sf::Vector2f playerCentre(player_->getPosition().x + player_->getGlobalBounds().width / 2,
 		player_->getPosition().y + player_->getGlobalBounds().height / 2);
@@ -136,13 +136,14 @@ void PlayState::handleCombat()
 {
 	bool playerOkay = player_->isAttacking() && player_->hasPlayerTurned();  //Are the players requirements allowd
 
+	sf::FloatRect attackTile(Utils::intRectToFloatRect(player_->getAttackTileLocation()));
 
 	if (playerOkay)
 	{
 
 		bool enemyFound(false);
 		int counter(0);
-		sf::FloatRect attackTile(Utils::intRectToFloatRect(player_->getAttackTileLocation()));
+
 		while (counter < entities_.size() && !enemyFound)
 		{
 			Enemy* e = static_cast<Enemy*> (entities_[counter]);
@@ -171,15 +172,14 @@ void PlayState::handleCombat()
 		for (int i(0); i < combatEnemyIndicies.size(); ++i)
 		{
 			Enemy* e = static_cast<Enemy*> (entities_[combatEnemyIndicies[i]]);
+
 			if (e != nullptr)
 			{
-				if (e->isAlive())
+				if (e->isAlive() && e->getGlobalBounds().intersects(attackTile))
 				{
 					e->takeDamage(player_->getAttackDamage());
 					std::cout << std::boolalpha << player_->isAttacking() << std::endl;
 				}
-
-
 			}
 		}
 	}
