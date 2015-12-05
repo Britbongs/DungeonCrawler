@@ -5,9 +5,12 @@
 #include <vector> 
 #include <string> 
 #include <fstream>
+#include <sstream>
 #include <assert.h>
+#include "..\RapidXML\rapidxml.hpp"
 
 using namespace std;
+using namespace rapidxml; 
 
 struct MOBjectProperty
 {//Object property
@@ -65,12 +68,13 @@ public:
 	int getTileHeight() const{ return tileHeight_; }
 private:
 	string tmxToString(const std::string&);
+	void setupTileMap();
 	int width_;  //Map width
 	int height_; //Map height
 	int tileWidth_;
 	int tileHeight_;
-	vector<MTileset*> tilesets;
-
+	vector<MTileset*> tilesets_;
+	xml_document<> doc_;
 
 };
 
