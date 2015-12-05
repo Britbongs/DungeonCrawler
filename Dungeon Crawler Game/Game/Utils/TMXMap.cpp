@@ -81,34 +81,59 @@ void MTileMap::setupTileMap()
 	is >> tileHeight_;
 
 	is.clear();
-	{//TILESET INITIALISATION
-		xml_node<>* tilesetNode = doc_.first_node("tileset");
-		xml_node<>* tileNode = doc_.first_node("tile");
 
-		int counter(0);
+	setupTilesets(mapNode);
 
-		while (tilesetNode)
-		{
-			tilesets_.push_back(new MTileset);
-			//setting first grid
+}
+
+void MTileMap::setupTilesets(xml_node<>* mapNode)
+{
+	istringstream is; 
+
+	xml_node<>* tilesetNode = mapNode->first_node("tileset");
+	xml_node<>* tileNode = tilesetNode->first_node("tile");
+
+	int counter(0);
+
+	while (tilesetNode)
+	{
+		tilesets_.push_back(new MTileset);
+		//setting first grid
+		is.clear();
+		is.str(tilesetNode->first_attribute("firstgid")->value());
+		is >> tilesets_[counter]->firstgid_; //set the tilsets first grid value
+
+		tilesets_[counter]->name_ = tilesetNode->first_attribute("name")->value(); // set the tiles name
+		tilesets_[counter]->tileWidth_ = tileWidth_; //set tileWidth for the tileset
+		tilesets_[counter]->tileHeight_ = tileHeight_; //set tileHeight for the tileset
+		
+		xml_node<>* tileProp = tileNode->first_node("properties")->first_node("property");
+
+		while (tileNode && tileProp)
+		{//initialising the tile properties for each tileset
+			MTile t;
+			
 			is.clear();
-			is.str(tilesetNode->first_attribute("firtgrid")->value());
-			is >> tilesets_[counter]->firstGrid_;
+			is.str(tileNode->first_attribute("id")->value());
+			is >> t.id;
 
-			tilesets_[counter]->name_ = tilesetNode->first_attribute("name")->value();
-			tilesets_[counter]->tileWidth_ = tileWidth_;
-			tilesets_[counter]->tileHeight_ = tileHeight_;
+			t.prop.name = tileProp->first_attribute("name")->value();
+			t.prop.value = tileProp->first_attribute("value")->value();
 
-			while (tileNode)
-			{
+			tilesets_[counter]->tile.push_back(t);
 
-			}
-
-
-
-			++counter;
+			tileNode = tileNode->next_sibling("tile");
+			tileProp = tileProp->next_sibling("property");
 		}
 
-	}//END OF TILESET INITIALISATION
 
+
+		++counter;
+		tilesetNode = tilesetNode->next_sibling("tileset");
+	}
+
+	for (size_t i(0); i < tilesets_[0]->tile.size(); ++i)
+	{
+		cout << "For tile " << i << " the property is: \n" << tilesets_[0]->tile[i].prop.name << " - " << tilesets_[0]->tile[i].prop.value << endl;
+	}
 }

@@ -20,7 +20,6 @@ struct MOBjectProperty
 
 struct MTileProperty : MOBjectProperty
 {//Tile property
-	int tileID;
 };
 
 struct MTile
@@ -35,7 +34,7 @@ struct MTileset
 	int tileWidth_;
 	int tileHeight_;
 	int tileCount_;
-	int firstGrid_;
+	int firstgid_;
 	vector<MTile>tile;
 };
 
@@ -69,6 +68,7 @@ public:
 private:
 	string tmxToString(const std::string&);
 	void setupTileMap();
+	void setupTilesets(xml_node<>*);
 	int width_;  //Map width
 	int height_; //Map height
 	int tileWidth_;

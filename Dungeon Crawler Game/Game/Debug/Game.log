@@ -1,12 +1,8 @@
-﻿Build started 05/12/2015 20:16:54.
+﻿Build started 05/12/2015 20:51:05.
      1>Project "C:\Users\Mace\Documents\GitHub\DungeonCrawler\Dungeon Crawler Game\Game\Game.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\SFML-2.3.2\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _CRT_SECURE_NO_WARNINGS /D SFML_STATIC /D _MBCS /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Utils\TMXMap.cpp main.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\SFML-2.3.2\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _CRT_SECURE_NO_WARNINGS /D SFML_STATIC /D _MBCS /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Utils\TMXMap.cpp
          TMXMap.cpp
-         Generating Code...
-         Compiling...
-         main.cpp
-         Generating Code...
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Mace\Documents\GitHub\DungeonCrawler\Dungeon Crawler Game\Debug\Game.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\SFML-2.3.2\lib" opengl32.lib freetype.lib jpeg.lib winmm.lib gdi32.lib "sfml-graphics-s-d.lib" "sfml-window-s-d.lib" "sfml-system-s-d.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Mace\Documents\GitHub\DungeonCrawler\Dungeon Crawler Game\Debug\Game.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Mace\Documents\GitHub\DungeonCrawler\Dungeon Crawler Game\Debug\Game.lib" /MACHINE:X86 Debug\CombatHandler.obj
          Debug\Entity.obj
@@ -30,4 +26,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.56
+Time Elapsed 00:00:00.87
