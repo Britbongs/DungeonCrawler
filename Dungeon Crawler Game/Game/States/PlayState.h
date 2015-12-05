@@ -4,7 +4,7 @@
 
 #include <vector>
 #include <assert.h>
-#include "..\SFML-2.3.2\include\SFML\Graphics.hpp"
+#include <SFML\Graphics.hpp>
 #include "GameStates.h"
 #include "..\Entities\Entities.h"
 #include "..\Map\Map.h"

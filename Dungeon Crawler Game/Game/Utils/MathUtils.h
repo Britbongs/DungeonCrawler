@@ -1,7 +1,7 @@
 
 #ifndef MATH_H
 #define MATH_H 
-#include "..\SFML-2.3.2\include\SFML\Graphics.hpp"
+#include <SFML\Graphics.hpp>
 
 class MathUtils
 {

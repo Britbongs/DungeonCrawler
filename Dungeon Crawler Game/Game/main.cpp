@@ -9,23 +9,32 @@
 #include <crtdbg.h>
 #include "GameManager\GameManager.h"
 #include "Constants\Constants.h"
-int main()
+#include "Utils\TMXMap.h"
+
+int main(void)
 {
 	//GameManager game(Const::Window::WINDOW_TITLE, Const::Window::WIDTH, Const::Window::HEIGHT); 
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	//_CrtSetBreakAlloc(1265);
-
+	/*
 
 	GameManager game(gconsts::Window::SCREEN_TITLE, gconsts::Window::WIDTH, gconsts::Window::HEIGHT);
 
 	if (game.init())
+	{
 		game.run();
+	}
 	else
 	{
 		system("pause");
 		return(-1);
-	}
+	}*/ 
 
+
+	MTileMap map;
+
+	map.loadMap("res//map.tmx");
+	system("pause");
 	return(0);
 
 }
