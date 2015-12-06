@@ -66,6 +66,9 @@
     <ClCompile Include="Utils\TMXMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Map\TiledMap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameManager\GameManager.h">
@@ -165,6 +168,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="STP\include\STP\TMXLoader.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Map\TiledMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

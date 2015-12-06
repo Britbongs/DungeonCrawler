@@ -25,14 +25,6 @@ bool MTileMap::loadMap(const string& filename)
 
 	setupTileMap();
 
-	/*
-	cout << "\n\n\n" << doc_.first_node()->name() << endl;
-	cout << doc_.first_node()->first_attribute()->name() << endl;
-	cout << doc_.first_node()->first_attribute()->value() << endl;
-	*/
-
-
-
 	delete[] a;
 	return(true);
 }
@@ -178,13 +170,15 @@ void MTileMap::setupLayer(xml_node<>* mapNode)
 
 		for (size_t i(0); i < width_; ++i)
 		{
+			
 			layers_[counter]->data.push_back(a);
+			
 			for (size_t j(0); j < height_; ++j)
 			{
-				
+
 				layers_[counter]->data[i].at(j) = (layerData[stringCounter] - '0'); //convert to integer
 				++stringCounter;
-				char c = layerData[stringCounter]; 
+				char c = layerData[stringCounter];
 				++stringCounter;
 
 				cout << layers_[counter]->data[i].at(j);
