@@ -171,12 +171,27 @@ void MTileMap::setupLayer(xml_node<>* mapNode)
 		is >> layers_[counter]->height;
 
 		string layerData = layerNode->first_node("data")->value(); //get the map data from the layer
+		vector<int> a(height_); //a temporary vector we'll use as an example, will be pushed into a vector
+		int stringCounter(0); //Used to keep track of where in the string layerData we're looking 
 
-		for (size_t i(0); i < layerData.size(); ++i)
+		cout << "\n\n\n";
+
+		for (size_t i(0); i < width_; ++i)
 		{
-			if (layerData[i] != ',')
-				layers_[counter]->data.push_back(layerData[i] - '0'); //Convert to integer and place into the data vector
+			layers_[counter]->data.push_back(a);
+			for (size_t j(0); j < height_; ++j)
+			{
+				
+				layers_[counter]->data[i].at(j) = (layerData[stringCounter] - '0'); //convert to integer
+				++stringCounter;
+				char c = layerData[stringCounter]; 
+				++stringCounter;
+
+				cout << layers_[counter]->data[i].at(j);
+			}
+			cout << endl;
 		}
+
 
 		layerNode = layerNode->next_sibling("layer");
 		++counter;

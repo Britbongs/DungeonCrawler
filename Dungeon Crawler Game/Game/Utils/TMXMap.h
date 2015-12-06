@@ -44,7 +44,7 @@ public:
 	string name;
 	int width;
 	int height;
-	std::vector<int> data;
+	vector<vector<int>> data;
 };
 
 
