@@ -101,6 +101,16 @@
     <ClInclude Include="RapidXML\rapidxml_print.hpp" />
     <ClInclude Include="RapidXML\rapidxml_utils.hpp" />
     <ClInclude Include="States\PlayState.h" />
+    <ClInclude Include="STP\include\STP\Config.hpp" />
+    <ClInclude Include="STP\include\STP\Core\Image.hpp" />
+    <ClInclude Include="STP\include\STP\Core\ImageLayer.hpp" />
+    <ClInclude Include="STP\include\STP\Core\Layer.hpp" />
+    <ClInclude Include="STP\include\STP\Core\MapObject.hpp" />
+    <ClInclude Include="STP\include\STP\Core\ObjectGroup.hpp" />
+    <ClInclude Include="STP\include\STP\Core\Properties.hpp" />
+    <ClInclude Include="STP\include\STP\Core\TileMap.hpp" />
+    <ClInclude Include="STP\include\STP\Core\TileSet.hpp" />
+    <ClInclude Include="STP\include\STP\TMXLoader.hpp" />
     <ClInclude Include="Utils\AnimatedSprite.hpp" />
     <ClInclude Include="Constants\Constants.h" />
     <ClInclude Include="Entities\Entities.h" />

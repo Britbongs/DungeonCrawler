@@ -15,9 +15,8 @@ int main(void)
 {
 	//GameManager game(Const::Window::WINDOW_TITLE, Const::Window::WIDTH, Const::Window::HEIGHT); 
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	//_CrtSetBreakAlloc(1265);
+	//_CrtSetBreakAlloc(384);
 	/*
-
 	GameManager game(gconsts::Window::SCREEN_TITLE, gconsts::Window::WIDTH, gconsts::Window::HEIGHT);
 
 	if (game.init())
@@ -30,10 +29,11 @@ int main(void)
 		return(-1);
 	}*/ 
 
-
+	
 	MTileMap map;
 
 	map.loadMap("res//map.tmx");
+
 	system("pause");
 	return(0);
 

@@ -2,7 +2,11 @@
 
 MTileMap::~MTileMap()
 {
+	for (size_t i(0); i < tilesets_.size(); ++i)
+		delete tilesets_[i];
 
+	for (size_t i(0); i < layers_.size(); ++i)
+		delete layers_[i];
 }
 
 bool MTileMap::loadMap(const string& filename)
@@ -84,14 +88,16 @@ void MTileMap::setupTileMap()
 
 	setupTilesets(mapNode);
 
+	setupLayer(mapNode);
+
 }
 
 void MTileMap::setupTilesets(xml_node<>* mapNode)
 {
-	istringstream is; 
+	istringstream is;
 
-	xml_node<>* tilesetNode = mapNode->first_node("tileset");
-	xml_node<>* tileNode = tilesetNode->first_node("tile");
+	xml_node<>* tilesetNode = mapNode->first_node("tileset"); //the note which contains the details of tilesets
+	xml_node<>* tileNode = tilesetNode->first_node("tile"); //tile information node
 
 	int counter(0);
 
@@ -106,24 +112,30 @@ void MTileMap::setupTilesets(xml_node<>* mapNode)
 		tilesets_[counter]->name_ = tilesetNode->first_attribute("name")->value(); // set the tiles name
 		tilesets_[counter]->tileWidth_ = tileWidth_; //set tileWidth for the tileset
 		tilesets_[counter]->tileHeight_ = tileHeight_; //set tileHeight for the tileset
-		
-		xml_node<>* tileProp = tileNode->first_node("properties")->first_node("property");
 
-		while (tileNode && tileProp)
+
+
+		while (tileNode)
 		{//initialising the tile properties for each tileset
 			MTile t;
-			
+
 			is.clear();
 			is.str(tileNode->first_attribute("id")->value());
 			is >> t.id;
 
-			t.prop.name = tileProp->first_attribute("name")->value();
-			t.prop.value = tileProp->first_attribute("value")->value();
+			xml_node<>* tileProp = tileNode->first_node("properties")->first_node("property");
+
+			while (tileProp)
+			{
+
+				t.prop.name = tileProp->first_attribute("name")->value();
+				t.prop.value = tileProp->first_attribute("value")->value();
+
+				tileProp = tileProp->next_sibling("property");
+			}
 
 			tilesets_[counter]->tile.push_back(t);
-
 			tileNode = tileNode->next_sibling("tile");
-			tileProp = tileProp->next_sibling("property");
 		}
 
 
@@ -131,9 +143,43 @@ void MTileMap::setupTilesets(xml_node<>* mapNode)
 		++counter;
 		tilesetNode = tilesetNode->next_sibling("tileset");
 	}
-
+	cout << tilesets_[0]->tile.size() << endl;
 	for (size_t i(0); i < tilesets_[0]->tile.size(); ++i)
 	{
 		cout << "For tile " << i << " the property is: \n" << tilesets_[0]->tile[i].prop.name << " - " << tilesets_[0]->tile[i].prop.value << endl;
 	}
+}
+
+void MTileMap::setupLayer(xml_node<>* mapNode)
+{
+	xml_node<>* layerNode = mapNode->first_node("layer");  //XML Node containing layer data
+	istringstream is;
+
+	int counter(0);
+
+	while (layerNode != nullptr)
+	{
+		layers_.push_back(new MLayer);
+
+		layers_[counter]->name = layerNode->first_attribute("name")->value();
+
+		is.str(layerNode->first_attribute("width")->value());
+		is >> layers_[counter]->width;
+
+		is.clear();
+		is.str(layerNode->first_attribute("height")->value());
+		is >> layers_[counter]->height;
+
+		string layerData = layerNode->first_node("data")->value(); //get the map data from the layer
+
+		for (size_t i(0); i < layerData.size(); ++i)
+		{
+			if (layerData[i] != ',')
+				layers_[counter]->data.push_back(layerData[i] - '0'); //Convert to integer and place into the data vector
+		}
+
+		layerNode = layerNode->next_sibling("layer");
+		++counter;
+	}
+
 }

@@ -10,7 +10,7 @@
 #include "..\RapidXML\rapidxml.hpp"
 
 using namespace std;
-using namespace rapidxml; 
+using namespace rapidxml;
 
 struct MOBjectProperty
 {//Object property
@@ -69,11 +69,13 @@ private:
 	string tmxToString(const std::string&);
 	void setupTileMap();
 	void setupTilesets(xml_node<>*);
+	void setupLayer(xml_node<>*);
 	int width_;  //Map width
 	int height_; //Map height
 	int tileWidth_;
 	int tileHeight_;
-	vector<MTileset*> tilesets_;
+	vector <MTileset*> tilesets_;
+	vector <MLayer*> layers_;
 	xml_document<> doc_;
 
 };
