@@ -9,14 +9,21 @@ class TiledMap :
 {
 	typedef MTileMap Map; 
 public:
-	TiledMap(Map*);
-	bool initaliseMap();
+	TiledMap(Map*); //Param: Pointer to a tmx map
 	~TiledMap();
+	//update functions
+	bool initaliseMap();
+	//accessor functions
+	int getTileWidth() const; 
+	int getTileHeight() const;
 private:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-	Map* currentMap; 
-	sf::VertexArray* vertexArr_; //Used to construct tilemap
-	sf::Vector2u mapBounds_; 
-	sf::Texture tileset;
+	bool initVertexArrays(); //Setup the vector of vertex arrays
+	bool initVertArray(int index); //initialise each individual vertex array
+	Map* currentTMXMap_ = nullptr; //TMX Map pointer
+	vector< sf::VertexArray> renderLayer_; //Used to construct tilemap
+	sf::Vector2u mapBounds_; //Size of the map in tiles
+	sf::Vector2u tileSize_;
+	sf::Texture tileset_; //texture used for the tileset
 };
 #endif

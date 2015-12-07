@@ -1,16 +1,28 @@
-﻿Build started 06/12/2015 18:54:10.
+﻿Build started 07/12/2015 02:41:59.
      1>Project "C:\Users\Mace\Documents\GitHub\DungeonCrawler\Dungeon Crawler Game\Game\Game.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\SFML-2.3.2\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _CRT_SECURE_NO_WARNINGS /D SFML_STATIC /D _MBCS /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Utils\TMXMap.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\SFML-2.3.2\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _CRT_SECURE_NO_WARNINGS /D SFML_STATIC /D _MBCS /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Map\TiledMap.cpp main.cpp Utils\TMXMap.cpp
          TMXMap.cpp
-     1>c:\users\mace\documents\github\dungeoncrawler\dungeon crawler game\game\utils\tmxmap.cpp(179): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\mace\documents\github\dungeoncrawler\dungeon crawler game\game\utils\tmxmap.cpp(182): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\mace\documents\github\dungeoncrawler\dungeon crawler game\game\utils\tmxmap.h(73): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\mace\documents\github\dungeoncrawler\dungeon crawler game\game\utils\tmxmap.h(78): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\mace\documents\github\dungeoncrawler\dungeon crawler game\game\utils\tmxmap.cpp(171): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\mace\documents\github\dungeoncrawler\dungeon crawler game\game\utils\tmxmap.cpp(176): warning C4018: '<' : signed/unsigned mismatch
+         TiledMap.cpp
+     1>c:\users\mace\documents\github\dungeoncrawler\dungeon crawler game\game\utils\tmxmap.h(73): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\mace\documents\github\dungeoncrawler\dungeon crawler game\game\utils\tmxmap.h(78): warning C4018: '<' : signed/unsigned mismatch
+         Generating Code...
+         Compiling...
+         main.cpp
+     1>c:\users\mace\documents\github\dungeoncrawler\dungeon crawler game\game\utils\tmxmap.h(73): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\mace\documents\github\dungeoncrawler\dungeon crawler game\game\utils\tmxmap.h(78): warning C4018: '<' : signed/unsigned mismatch
+         Generating Code...
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Mace\Documents\GitHub\DungeonCrawler\Dungeon Crawler Game\Debug\Game.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\SFML-2.3.2\lib" opengl32.lib freetype.lib jpeg.lib winmm.lib gdi32.lib "sfml-graphics-s-d.lib" "sfml-window-s-d.lib" "sfml-system-s-d.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Mace\Documents\GitHub\DungeonCrawler\Dungeon Crawler Game\Debug\Game.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Mace\Documents\GitHub\DungeonCrawler\Dungeon Crawler Game\Debug\Game.lib" /MACHINE:X86 Debug\CombatHandler.obj
          Debug\Entity.obj
          Debug\Player.obj
          Debug\Enemy.obj
          Debug\GUI.obj
+         Debug\TiledMap.obj
          Debug\PlayState.obj
          Debug\AnimatedSprite.obj
          Debug\GameManager.obj
@@ -23,9 +35,10 @@
          Debug\MathUtils.obj
          Debug\TMXMap.obj
          Debug\Utils.obj
-         Game.vcxproj -> C:\Users\Mace\Documents\GitHub\DungeonCrawler\Dungeon Crawler Game\Debug\Game.exe
-     1>Done Building Project "C:\Users\Mace\Documents\GitHub\DungeonCrawler\Dungeon Crawler Game\Game\Game.vcxproj" (Build target(s)).
+     1>TiledMap.obj : error LNK2001: unresolved external symbol "private: virtual void __thiscall TiledMap::draw(class sf::RenderTarget &,class sf::RenderStates)const " (?draw@TiledMap@@EBEXAAVRenderTarget@sf@@VRenderStates@3@@Z)
+     1>C:\Users\Mace\Documents\GitHub\DungeonCrawler\Dungeon Crawler Game\Debug\Game.exe : fatal error LNK1120: 1 unresolved externals
+     1>Done Building Project "C:\Users\Mace\Documents\GitHub\DungeonCrawler\Dungeon Crawler Game\Game\Game.vcxproj" (Build target(s)) -- FAILED.
 
-Build succeeded.
+Build FAILED.
 
-Time Elapsed 00:00:01.83
+Time Elapsed 00:00:03.20

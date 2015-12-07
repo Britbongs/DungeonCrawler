@@ -66,6 +66,11 @@ public:
 	int getHeight() const { return height_; }
 	int getTileWidth() const { return tileWidth_; }
 	int getTileHeight() const{ return tileHeight_; }
+	int getLayerCount() const { return layers_.size(); }
+	int getTilesetCount() const { return tilesets_.size(); }
+	const vector<MLayer*> getLayer() const { return(layers_); }
+	const vector< MTileset*> getTileSet() const { return(tilesets_); }
+
 private:
 	string tmxToString(const std::string&);
 	void setupTileMap();
@@ -78,7 +83,6 @@ private:
 	vector <MTileset*> tilesets_;
 	vector <MLayer*> layers_;
 	xml_document<> doc_;
-
 };
 
 #endif
