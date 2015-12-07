@@ -10,6 +10,7 @@
 #include "GameManager\GameManager.h"
 #include "Constants\Constants.h"
 #include "Utils\TMXMap.h"
+#include "Map\TiledMap.h"
 
 int main(void)
 {
@@ -33,6 +34,8 @@ int main(void)
 	MTileMap map;
 
 	map.loadMap("res//map.tmx");
+	TiledMap m(&map);
+	m.initaliseMap();
 
 	system("pause");
 	return(0);

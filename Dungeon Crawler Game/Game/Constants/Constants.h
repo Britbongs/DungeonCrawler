@@ -39,6 +39,7 @@ namespace gconsts
 		static const std::string FONT_LOCATION("res//fonts//seriphim.ttf");
 		static const std::string PLAYER_TEXTURE_LOCATION("res//entities//fighter.png");
 		static const std::string PLAYER_TEXTURE_RECTS("res//entities//fighterrects.txt");
+		static const std::string MAP_TEXT_LOC("res//");
 	}
 
 	namespace AITextureRectangles

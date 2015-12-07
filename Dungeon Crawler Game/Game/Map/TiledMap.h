@@ -3,6 +3,7 @@
 
 #include <SFML\Graphics.hpp> 
 #include "..\Utils\TMXMap.h"
+#include "..\Constants\Constants.h"
 
 class TiledMap : 
 	public sf::Transformable, sf::Drawable
@@ -20,10 +21,13 @@ private:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	bool initVertexArrays(); //Setup the vector of vertex arrays
 	bool initVertArray(int index); //initialise each individual vertex array
+	int getTilesetID(int tileID) const;  //Will return the index of the correct tileset to use for rendering 
 	Map* currentTMXMap_ = nullptr; //TMX Map pointer
 	vector< sf::VertexArray> renderLayer_; //Used to construct tilemap
-	sf::Vector2u mapBounds_; //Size of the map in tiles
-	sf::Vector2u tileSize_;
-	sf::Texture tileset_; //texture used for the tileset
+	vector<int> firstGID_; //global id of the first tile in each tileset of the map
+	vector<int> tileCount_; //total number of tiles in each tileset of the map
+	sf::Vector2u mapBounds_; //Size of the map in tiles 
+	sf::Vector2u tileSize_; //Dimensions of the tile
+	vector< sf::Texture> tileset_; //texture used for the tileset
 };
 #endif

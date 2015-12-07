@@ -104,7 +104,10 @@ void MTileMap::setupTilesets(xml_node<>* mapNode)
 		tilesets_[counter]->name_ = tilesetNode->first_attribute("name")->value(); // set the tiles name
 		tilesets_[counter]->tileWidth_ = tileWidth_; //set tileWidth for the tileset
 		tilesets_[counter]->tileHeight_ = tileHeight_; //set tileHeight for the tileset
-
+		
+		is.clear();
+		is.str(tilesetNode->first_attribute("tilecount")->value());
+		is >> tilesets_[counter]->tileCount_;
 
 
 		while (tileNode)
