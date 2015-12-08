@@ -22,20 +22,47 @@ int main(void)
 
 	if (game.init())
 	{
-		game.run();
+	game.run();
 	}
 	else
 	{
-		system("pause");
-		return(-1);
-	}*/ 
+	system("pause");
+	return(-1);
+	}*/
 
-	
+
 	MTileMap map;
 
 	map.loadMap("res//map.tmx");
 	TiledMap m(&map);
 	m.initaliseMap();
+	
+	sf::RenderWindow window(sf::VideoMode(1024, 640), "Hello", sf::Style::Close);
+	//window.setFramerateLimit(90);
+
+	sf::Clock c;
+	
+	while (window.isOpen())
+	{
+		sf::Time delta = c.restart();
+		sf::Event evnt;
+		while (window.pollEvent(evnt))
+		{
+			if (evnt.type == sf::Event::Closed)
+				window.close();
+
+			if (evnt.type == sf::Event::KeyPressed)
+			{
+				if (evnt.key.code == sf::Keyboard::Escape)
+					window.close();
+			}
+		}
+
+		window.clear(sf::Color::Black);	
+		window.draw(m);
+		window.display();
+	}
+	
 
 	system("pause");
 	return(0);

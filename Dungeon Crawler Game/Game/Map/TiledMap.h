@@ -6,7 +6,7 @@
 #include "..\Constants\Constants.h"
 
 class TiledMap : 
-	public sf::Transformable, sf::Drawable
+	public sf::Transformable, public sf::Drawable
 {
 	typedef MTileMap Map; 
 public:
@@ -29,5 +29,7 @@ private:
 	sf::Vector2u mapBounds_; //Size of the map in tiles 
 	sf::Vector2u tileSize_; //Dimensions of the tile
 	vector< sf::Texture> tileset_; //texture used for the tileset
+	sf::Texture tempText; 
+
 };
 #endif
