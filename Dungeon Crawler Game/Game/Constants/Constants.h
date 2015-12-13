@@ -14,8 +14,8 @@ namespace gconsts
 	namespace Window
 	{
 		static std::string SCREEN_TITLE("Dungeon Crawler - INDEV");
-		static const int WIDTH(640);
-		static const int HEIGHT(480);
+		static const int WIDTH(1024);
+		static const int HEIGHT(640);
 	}
 
 	namespace States

@@ -25,7 +25,7 @@ bool TiledMap::initaliseMap()
 		firstGID_[i] = currentTMXMap_->getTileSet()[i]->firstgid_;
 		tileCount_[i] = currentTMXMap_->getTileSet()[i]->tileCount_;
 	}
-	
+
 	tempText.loadFromFile("res//t2.png");
 
 	initVertexArrays();
@@ -55,20 +55,20 @@ bool TiledMap::initVertArray(int index)
 	{
 		for (int j(0); j < mapBounds_.y; ++j)
 		{
-			sf::Vertex* tile = &renderLayer_[index][(i*j * 4)];
+			sf::Vertex* tile = &renderLayer_[index][((i + j * mapBounds_.x) * 4)];
 
 			tile[0].position = sf::Vector2f(i * tileSize_.x, j * tileSize_.y);
 			tile[1].position = sf::Vector2f((i + 1) * tileSize_.x, j * tileSize_.y);
 			tile[2].position = sf::Vector2f((i + 1) * tileSize_.x, (j + 1) * tileSize_.y);
 			tile[3].position = sf::Vector2f(i * tileSize_.x, (j + 1) * tileSize_.y);
 
-			//int tileID = data[i][j];
 			int tilesetID = getTilesetID(currentTMXMap_->getLayer()[index]->data[i][j]);
 
 			if (tilesetID == -1) //Means no tilesets matched with the tile read in
 				return(false);
 
-			int tileID = currentTMXMap_->getLayer()[index]->data[i][j] - tilesetID;
+			
+			int tileID = currentTMXMap_->getLayer()[index]->data[i][j] - currentTMXMap_->getTileSet()[tilesetID]->firstgid_;
 
 			tile[0].texCoords = sf::Vector2f(tileID * tileSize_.x, 0);
 			tile[1].texCoords = sf::Vector2f((tileID + 1) * tileSize_.x, 0);
@@ -86,7 +86,8 @@ void TiledMap::draw(sf::RenderTarget& renderTarget, sf::RenderStates renderState
 	renderStates.texture = &tempText;
 
 	for (int i(0); i < renderLayer_.size(); ++i)
-	{//Render each map layer
+	{
+		//Render each map layer
 		renderTarget.draw(renderLayer_[i], renderStates);
 	}
 }

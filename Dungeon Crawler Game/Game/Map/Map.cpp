@@ -65,6 +65,7 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	states.transform *= getTransform();
 	states.texture = &TILES;
 
+
 	target.draw(mapVertexArray_, states);
 }
 

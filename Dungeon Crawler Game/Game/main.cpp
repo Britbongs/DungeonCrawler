@@ -28,24 +28,29 @@ int main(void)
 	{
 	system("pause");
 	return(-1);
-	}*/
+	}
+	*/
 
+	
 
 	MTileMap map;
 
 	map.loadMap("res//map.tmx");
 	TiledMap m(&map);
 	m.initaliseMap();
-	
+
 	sf::RenderWindow window(sf::VideoMode(1024, 640), "Hello", sf::Style::Close);
 	//window.setFramerateLimit(90);
 
 	sf::Clock c;
-	
+
 	while (window.isOpen())
 	{
 		sf::Time delta = c.restart();
 		sf::Event evnt;
+
+		sf::View view = window.getView();
+
 		while (window.pollEvent(evnt))
 		{
 			if (evnt.type == sf::Event::Closed)
@@ -57,12 +62,31 @@ int main(void)
 					window.close();
 			}
 		}
+		float speed(120.f);
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+		{
+			view.move(sf::Vector2f(-speed * delta.asSeconds(), 0));
+		}
 
-		window.clear(sf::Color::Black);	
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+		{
+			view.move(sf::Vector2f(speed * delta.asSeconds(), 0));
+		}
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+		{
+			view.move(sf::Vector2f(0, -speed * delta.asSeconds()));
+		}
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+		{
+			view.move(sf::Vector2f(0, speed * delta.asSeconds()));
+		}
+		window.setView(view);
+		window.clear(sf::Color::Black);
 		window.draw(m);
 		window.display();
 	}
-	
 
 	system("pause");
 	return(0);

@@ -52,7 +52,7 @@ bool GameManager::init()
 void GameManager::run()
 {
 	sf::Clock clock; //Create a new sfml clock 
-
+	
 	while (window_.isOpen())
 	{
 		sf::Time delta(clock.restart()); //Each loop set delta equal to the amount of elapsed time of 1 loop
