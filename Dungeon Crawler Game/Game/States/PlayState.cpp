@@ -17,13 +17,7 @@ State(STATE_ID, window, renderTexture), combatActive_(false), isPlayerCombatTurn
 
 PlayState::~PlayState()
 {//Deleting class pointers
-	delete mapLoader_;
-	delete map_;
-	delete camera_;
-	delete gui_;
-	delete player_;
-	for (size_t i(0); i < entities_.size(); ++i)
-		delete entities_[i]; //Deleting all entity class pointers in the vector entities_
+	deinit();
 }
 
 bool PlayState::init()
@@ -41,7 +35,15 @@ bool PlayState::init()
 
 	map_ = new Map(mapLoader_->getTextureMap(), mapLoader_->getBlockedMap(), mapLoader_->getMapBounds(), gconsts::Gameplay::TILESIZE, tileset, mapLoader_->getScaleFactor());
 
-	player_ = new Player(mapLoader_->getPlayerStart(), map_, window_, renderTexture_);
+
+	tmxMap_.loadMap("res//map.tmx");
+	tiledMap_.setTMXFile(&tmxMap_);
+
+	if (!tiledMap_.initaliseMap())
+		return (false);
+
+
+	player_ = new Player(sf::Vector2i(7,3), &tiledMap_, window_, renderTexture_);
 
 	if (player_ == nullptr)
 		return(false);
@@ -49,10 +51,12 @@ bool PlayState::init()
 	if (!player_->init())
 		return(false);
 
+	/*
 	entities_[0] = new Enemy(0, map_->randomFreeTile(), map_, "bat", window_, renderTexture_);
 	entities_[1] = new Enemy(1, map_->randomFreeTile(), map_, "bat", window_, renderTexture_);
 	entities_[2] = new Enemy(2, map_->randomFreeTile(), map_, "bat", window_, renderTexture_);
 	entities_[3] = new Enemy(3, map_->randomFreeTile(), map_, "bat", window_, renderTexture_);
+	*/
 
 	for (size_t i(0); i < entities_.size(); ++i)
 	{
@@ -62,8 +66,8 @@ bool PlayState::init()
 				return(false);
 		}
 	}
-
-	camera_ = new Camera(mapLoader_->getMapBounds(), renderTexture_);
+	
+	camera_ = new Camera(sf::Vector2u(tiledMap_.getTileWidth(), tiledMap_.getTileHeight()), renderTexture_);
 	sf::View view;
 	view.setSize(sf::Vector2f((float)gconsts::Gameplay::GAME_VIEW_WIDTH, (float)gconsts::Gameplay::GAME_VIEW_HEIGHT));
 	view.setViewport(sf::FloatRect(0.f, 0.f, view.getSize().x / (float)(gconsts::Window::WIDTH), 1.f));
@@ -77,9 +81,6 @@ bool PlayState::init()
 		return(false);
 
 
-
-
-
 	//TODO split init into smaller functions 
 
 	return(true);
@@ -87,7 +88,8 @@ bool PlayState::init()
 
 void PlayState::render()
 {
-	renderTexture_->draw(*map_);
+	//renderTexture_->draw(*map_);
+	renderTexture_->draw(tiledMap_);
 	gui_->render(*renderTexture_);
 
 	for (size_t i(0); i < entities_.size(); ++i)
@@ -106,6 +108,8 @@ void PlayState::update(const sf::Time& delta)
 {
 
 	player_->update(delta);
+	player_->setTurn(false);
+	/* 
 	if (player_->hasPlayerTurned())
 	{
 		for (size_t i(0); i < entities_.size(); ++i)
@@ -119,7 +123,7 @@ void PlayState::update(const sf::Time& delta)
 		}
 		player_->setTurn(false);
 	}
-
+	*/
 	sf::Vector2f playerCentre(player_->getPosition().x + player_->getGlobalBounds().width / 2,
 		player_->getPosition().y + player_->getGlobalBounds().height / 2);
 
@@ -184,4 +188,15 @@ void PlayState::handleCombat()
 		}
 	}
 	player_->endAttackTurn();
+}
+
+void PlayState::deinit()
+{
+	delete mapLoader_;
+	delete map_;
+	delete camera_;
+	delete gui_;
+	delete player_;
+	for (size_t i(0); i < entities_.size(); ++i)
+		delete entities_[i]; //Deleting all entity class pointers in the vector entities_
 }

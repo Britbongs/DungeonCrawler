@@ -63,10 +63,10 @@
     <ClCompile Include="Combat\CombatHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Utils\TMXMap.cpp">
+    <ClCompile Include="Map\TiledMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Map\TiledMap.cpp">
+    <ClCompile Include="Utils\MTileMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -125,9 +125,6 @@
     <ClInclude Include="Combat\CombatHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Utils\TMXMap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="RapidXML\rapidxml_iterators.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -173,9 +170,8 @@
     <ClInclude Include="Map\TiledMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-    <None Include="ClassDiagram1.cd" />
+    <ClInclude Include="Utils\MTileMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

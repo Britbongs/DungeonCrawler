@@ -26,10 +26,10 @@ namespace gconsts
 	namespace Gameplay
 	{
 		static const int TILESIZE(64);
-		static const int GAME_VIEW_WIDTH(512);
-		static const int GAME_VIEW_HEIGHT(480);
+		static const int GAME_VIEW_WIDTH(896);
+		static const int GAME_VIEW_HEIGHT(640);
 		static const int GUI_VIEW_WIDTH(128);
-		static const int GUI_VIEW_HEIGHT(480);
+		static const int GUI_VIEW_HEIGHT(640);
 		static const std::string BAT_TYPE = "bat";
 	}
 

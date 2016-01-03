@@ -7,9 +7,15 @@ State::State(int STATE_ID, sf::RenderWindow* window, sf::RenderTexture* renderTe
 
 State::~State()
 {
+	deinit();
 }
 
 int State::getStateID() const
 {
 	return(STATE_ID);
+}
+
+void State::deinit()
+{
+
 }

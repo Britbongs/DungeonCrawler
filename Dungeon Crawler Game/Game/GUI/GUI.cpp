@@ -18,7 +18,8 @@ bool GUI::init(sf::RenderTexture& renderTexture_)
 
 	guiPaneSprite_.setTexture(guiPaneTexture_);
 	guiPaneSprite_.setPosition((float)GUI_X, 0);
-	guiPaneSprite_.setScale(2.f, 2.f);
+	//remove hard-coded values
+	guiPaneSprite_.setScale(2.f, 640.f / 240.f );
 
 	sf::View guiView = createGUIView();
 

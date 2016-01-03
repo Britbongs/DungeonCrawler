@@ -88,7 +88,7 @@
     <ClCompile Include="Utils\Animation.cpp" />
     <ClCompile Include="Utils\Camera.cpp" />
     <ClCompile Include="Utils\MathUtils.cpp" />
-    <ClCompile Include="Utils\TMXMap.cpp" />
+    <ClCompile Include="Utils\MTileMap.cpp" />
     <ClCompile Include="Utils\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -124,12 +124,8 @@
     <ClInclude Include="Utils\Animation.hpp" />
     <ClInclude Include="Utils\Camera.h" />
     <ClInclude Include="Utils\MathUtils.h" />
-    <ClInclude Include="Utils\TMXMap.h" />
+    <ClInclude Include="Utils\MTileMap.h" />
     <ClInclude Include="Utils\Utils.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

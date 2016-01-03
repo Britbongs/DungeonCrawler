@@ -5,7 +5,7 @@
 #include <fstream>
 #include <SFML\Graphics.hpp> 
 #include "Entities.h"
-#include "..\Map\Map.h"
+#include "..\Map\TiledMap.h"
 #include "..\Constants\Constants.h"
 #include "..\Utils\MathUtils.h"
 #include <iostream>
@@ -14,7 +14,7 @@ class Player :
 	public Entity
 {
 public:
-	Player(sf::Vector2i, Map*, sf::RenderWindow*, sf::RenderTexture*);
+	Player(sf::Vector2i, TiledMap*, sf::RenderWindow*, sf::RenderTexture*);
 	~Player();
 	bool init();
 	void render() const;
@@ -46,7 +46,7 @@ private:
 	const int TILESIZE;
 	const float ANIMATION_LENGTH = 0.5f;
 	const float TWEEN_LENGTH = 0.25f;
-	Map* map_;
+	TiledMap * map_;
 	sf::RectangleShape shape_;
 	sf::Time attackTime;
 	int state_;

@@ -1,5 +1,9 @@
 #include "TiledMap.h"
+TiledMap::TiledMap()
+	: currentTMXMap_(nullptr)
+{
 
+}
 TiledMap::TiledMap(Map* tmxMap)
 	: currentTMXMap_(tmxMap)
 {
@@ -11,24 +15,29 @@ TiledMap::~TiledMap()
 
 bool TiledMap::initaliseMap()
 {
-
-	mapBounds_.x = static_cast<unsigned> (currentTMXMap_->getWidth());
-	mapBounds_.y = static_cast<unsigned> (currentTMXMap_->getHeight());
-	tileSize_.x = static_cast<unsigned> (currentTMXMap_->getTileWidth());
-	tileSize_.y = static_cast<unsigned> (currentTMXMap_->getTileHeight());
-
-	firstGID_.resize(currentTMXMap_->getTileSet().size());
-	tileCount_.resize(currentTMXMap_->getTileSet().size());
-
-	for (int i(0); i < firstGID_.size(); ++i)
+	if (currentTMXMap_)
 	{
-		firstGID_[i] = currentTMXMap_->getTileSet()[i]->firstgid_;
-		tileCount_[i] = currentTMXMap_->getTileSet()[i]->tileCount_;
+		mapBounds_.x = static_cast<unsigned> (currentTMXMap_->getWidth());
+		mapBounds_.y = static_cast<unsigned> (currentTMXMap_->getHeight());
+		tileSize_.x = static_cast<unsigned> (currentTMXMap_->getTileWidth());
+		tileSize_.y = static_cast<unsigned> (currentTMXMap_->getTileHeight());
+
+		firstGID_.resize(currentTMXMap_->getTileSet().size());
+		tileCount_.resize(currentTMXMap_->getTileSet().size());
+
+		for (int i(0); i < firstGID_.size(); ++i)
+		{
+			firstGID_[i] = currentTMXMap_->getTileSet()[i]->firstgid_;
+			tileCount_[i] = currentTMXMap_->getTileSet()[i]->tileCount_;
+		}
+
+		tempText.loadFromFile("res//t2.png");
+
+		initVertexArrays();
+
 	}
-
-	tempText.loadFromFile("res//t2.png");
-
-	initVertexArrays();
+	else
+		return(false);
 
 	return(true);
 }
@@ -51,24 +60,24 @@ bool TiledMap::initVertexArrays()
 bool TiledMap::initVertArray(int index)
 {
 
-	for (int i(0); i < mapBounds_.x; ++i)
+	for (int y(0); y < mapBounds_.x; ++y)
 	{
-		for (int j(0); j < mapBounds_.y; ++j)
+		for (int x(0); x < mapBounds_.x; ++x)
 		{
-			sf::Vertex* tile = &renderLayer_[index][((i + j * mapBounds_.x) * 4)];
+			sf::Vertex* tile = &renderLayer_[index][((y + x * mapBounds_.x) * 4)];
 
-			tile[0].position = sf::Vector2f(i * tileSize_.x, j * tileSize_.y);
-			tile[1].position = sf::Vector2f((i + 1) * tileSize_.x, j * tileSize_.y);
-			tile[2].position = sf::Vector2f((i + 1) * tileSize_.x, (j + 1) * tileSize_.y);
-			tile[3].position = sf::Vector2f(i * tileSize_.x, (j + 1) * tileSize_.y);
+			tile[0].position = sf::Vector2f(x * tileSize_.x, y * tileSize_.y);
+			tile[1].position = sf::Vector2f((x + 1) * tileSize_.x, y * tileSize_.y);
+			tile[2].position = sf::Vector2f((x + 1) * tileSize_.x, (y + 1) * tileSize_.y);
+			tile[3].position = sf::Vector2f(x * tileSize_.x, (y + 1) * tileSize_.y);
 
-			int tilesetID = getTilesetID(currentTMXMap_->getLayer()[index]->data[i][j]);
+			int tilesetID = getTilesetID(currentTMXMap_->getLayer()[index]->data[y][x]);
 
 			if (tilesetID == -1) //Means no tilesets matched with the tile read in
 				return(false);
 
-			
-			int tileID = currentTMXMap_->getLayer()[index]->data[i][j] - currentTMXMap_->getTileSet()[tilesetID]->firstgid_;
+
+			int tileID = currentTMXMap_->getLayer()[index]->data[y][x] - currentTMXMap_->getTileSet()[tilesetID]->firstgid_;
 
 			tile[0].texCoords = sf::Vector2f(tileID * tileSize_.x, 0);
 			tile[1].texCoords = sf::Vector2f((tileID + 1) * tileSize_.x, 0);
@@ -100,4 +109,46 @@ int TiledMap::getTilesetID(int tileID) const
 			return(i);
 	}
 	return(-1);
+}
+
+void TiledMap::setTMXFile(Map* m)
+{
+	assert(m != nullptr);
+	currentTMXMap_ = m;
+}
+
+bool TiledMap::isPlaceFree(sf::Vector2f location) const
+{
+	sf::Vector2i pos(static_cast<int>(location.x), static_cast<int> (location.y));
+	bool found(false);
+	int counter(0);
+	int tilesetID(-1);
+	int tileID(-1);
+	while (counter < currentTMXMap_->getLayer().size() && !found)
+	{
+		if (getTilesetID(currentTMXMap_->getLayer()[counter]->data[pos.y][pos.x]) != -1)
+		{
+			found = true;
+			tilesetID = getTilesetID(currentTMXMap_->getLayer()[counter]->data[pos.y][pos.x]);
+			tileID = currentTMXMap_->getLayer()[counter]->data[pos.y][pos.x] - firstGID_[tilesetID];
+		}
+	}
+
+	if (tilesetID != -1 && tileID != -1)
+	{
+		if (currentTMXMap_->getTileSet()[tilesetID]->getTilePropertyName(tileID) == "blocked" &&
+			currentTMXMap_->getTileSet()[tilesetID]->getTilePropertyValue(tileID) == "false")
+			return(true);
+	}
+
+	return(false);
+}
+
+int TiledMap::getTileWidth() const
+{
+	return(currentTMXMap_->getTileWidth());
+}
+int TiledMap::getTileHeight() const
+{
+	return(currentTMXMap_->getTileHeight());
 }

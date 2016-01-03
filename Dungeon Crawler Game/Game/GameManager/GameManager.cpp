@@ -28,7 +28,7 @@ bool GameManager::init()
 
 
 	//window_.setView(view_);
-	window_.setFramerateLimit(60);
+	//window_.setFramerateLimit(60); Activate on release
 
 	//If the creation of the render texture fails
 	if (!renderTexture_.create(window_.getSize().x, window_.getSize().y))

@@ -12,6 +12,7 @@ public:
 	virtual void render() = 0;
 	virtual void update(const sf::Time&) = 0;
 	virtual void handleEvents(sf::Event&, const sf::Time&) = 0;
+	virtual void deinit();
 	int getStateID() const;
 protected:
 	sf::RenderWindow* window_ = nullptr;

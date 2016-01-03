@@ -1,6 +1,6 @@
 #include "Player.h"
 
-Player::Player(sf::Vector2i startPosition, Map* map, sf::RenderWindow* window, sf::RenderTexture* renderTexture) :
+Player::Player(sf::Vector2i startPosition, TiledMap* map, sf::RenderWindow* window, sf::RenderTexture* renderTexture) :
 map_(map), TILESIZE(gconsts::Gameplay::TILESIZE), Entity(window, renderTexture), attackTime(sf::seconds(0)),
 attackDamage_(1)
 {
@@ -144,11 +144,18 @@ void Player::handleEvents(sf::Event& evnt, const sf::Time& delta)
 			sf::Vector2f startPos(sprite_.getPosition());
 			if (evnt.key.code == sf::Keyboard::D || evnt.key.code == sf::Keyboard::Right)
 			{
-				collider.left += TILESIZE; //Move the collider one space right
+				//collider.left += TILESIZE; //Move the collider one space right
+
 				if (!tweenActive_)
 					setTextureRect(W_RIGHT);
 				setTurn(true);
-				if (map_->isPlaceFree(collider) && !tweenActive_)
+
+				sf::Vector2f pos(sprite_.getPosition());
+				pos.x = ((pos.x + TILESIZE) / TILESIZE);
+				pos.y = (pos.y / TILESIZE);
+
+				//if (map_->isPlaceFree(collider) && !tweenActive_)
+				if (map_->isPlaceFree(pos) && !tweenActive_)
 				{//if the location this 'copy collider' is in is free
 					//sprite_.move(TILESIZE, 0); //Move the player to this location 
 					setupTween(startPos.x, (startPos.x + TILESIZE) - startPos.x);
@@ -156,18 +163,24 @@ void Player::handleEvents(sf::Event& evnt, const sf::Time& delta)
 				}
 				else
 				{
+					/*
 					if (map_->getBlockedTileData().value == ENEMY)
-						shape_.setPosition(getAutoMeleeSquare().left, getAutoMeleeSquare().top);
+					shape_.setPosition(getAutoMeleeSquare().left, getAutoMeleeSquare().top);
+					*/
 				}
 
 			}
 			if (evnt.key.code == sf::Keyboard::A || evnt.key.code == sf::Keyboard::Left)
 			{
-				collider.left -= TILESIZE;
+				//collider.left -= TILESIZE;
 				if (!tweenActive_)
 					setTextureRect(W_LEFT);
 				setTurn(true);
-				if (map_->isPlaceFree(collider) && !tweenActive_)
+				sf::Vector2f pos(sprite_.getPosition());
+				pos.x = ((pos.x - TILESIZE) / TILESIZE);
+				pos.y = (pos.y / TILESIZE);
+				//if (map_->isPlaceFree(collider) && !tweenActive_)
+				if (map_->isPlaceFree(pos) && !tweenActive_)
 				{
 
 					setupTween(startPos.x, (startPos.x - TILESIZE) - startPos.x);
@@ -175,46 +188,60 @@ void Player::handleEvents(sf::Event& evnt, const sf::Time& delta)
 				}
 				else
 				{
-					if (map_->getBlockedTileData().value == ENEMY)
+					/*if (map_->getBlockedTileData().value == ENEMY)
 						shape_.setPosition(getAutoMeleeSquare().left, getAutoMeleeSquare().top);
-
+						*/
 				}
 
 			}
 			if (evnt.key.code == sf::Keyboard::W || evnt.key.code == sf::Keyboard::Up)
 			{
-				collider.top -= TILESIZE;
+				//collider.top -= TILESIZE;
 				if (!tweenActive_)
 					setTextureRect(W_UP);
 				setTurn(true);
-				if (map_->isPlaceFree(collider) && !tweenActive_)
+
+				sf::Vector2f pos(sprite_.getPosition());
+				pos.x = (pos.x / TILESIZE);
+				pos.y = ((pos.y - TILESIZE) / TILESIZE);
+
+				//if (map_->isPlaceFree(collider) && !tweenActive_)
+				if (map_->isPlaceFree(pos) && !tweenActive_)
 				{
 					setupTween(startPos.y, (startPos.y - TILESIZE) - startPos.y);
 					direc_ = '1';
 				}
 				else
-				{
+				{/*
 					if (map_->getBlockedTileData().value == ENEMY)
-						shape_.setPosition(getAutoMeleeSquare().left, getAutoMeleeSquare().top);
+					shape_.setPosition(getAutoMeleeSquare().left, getAutoMeleeSquare().top); */
+
 				}
 
 
 			}
 			if (evnt.key.code == sf::Keyboard::S || evnt.key.code == sf::Keyboard::Down)
 			{
-				collider.top += TILESIZE;
+
+				sf::Vector2f pos(sprite_.getPosition());
+				pos.x = (pos.x / TILESIZE);
+				pos.y = ((pos.y + TILESIZE) / TILESIZE);
+
+				//collider.top += TILESIZE;
 				if (!tweenActive_)
 					setTextureRect(W_DOWN);
 				setTurn(true);
-				if (map_->isPlaceFree(collider) && !tweenActive_)
+
+				//if (map_->isPlaceFree(collider) && !tweenActive_)
+				if (map_->isPlaceFree(pos) && !tweenActive_)
 				{
 					setupTween(startPos.y, (startPos.y + TILESIZE) - startPos.y);
 					direc_ = '1';
 				}
 				else
 				{
-					if (map_->getBlockedTileData().value == ENEMY)
-						shape_.setPosition(getAutoMeleeSquare().left, getAutoMeleeSquare().top);
+					/*if (map_->getBlockedTileData().value == ENEMY)
+						shape_.setPosition(getAutoMeleeSquare().left, getAutoMeleeSquare().top);*/
 				}
 
 
