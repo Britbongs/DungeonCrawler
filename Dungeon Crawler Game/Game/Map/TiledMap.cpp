@@ -94,6 +94,7 @@ void TiledMap::draw(sf::RenderTarget& renderTarget, sf::RenderStates renderState
 	renderStates.transform *= getTransform();
 	renderStates.texture = &tempText;
 
+
 	for (int i(0); i < renderLayer_.size(); ++i)
 	{
 		//Render each map layer

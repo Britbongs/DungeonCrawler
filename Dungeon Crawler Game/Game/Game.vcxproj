@@ -72,31 +72,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Combat\CombatHandler.cpp" />
+    <ClCompile Include="..\..\..\..\Visual Studio 2013\Projects\HelecopterRescue\HelecopterRescue\Utils\Utils.cpp" />
+    <ClCompile Include="..\..\..\..\Visual Studio 2013\Projects\HelecopterRescue\HelecopterRescue\Utils\VectorUtils.cpp" />
     <ClCompile Include="Entities\Entity.cpp" />
     <ClCompile Include="Entities\Player.cpp" />
-    <ClCompile Include="Entities\Enemy.cpp" />
-    <ClCompile Include="GUI\GUI.cpp" />
     <ClCompile Include="Map\TiledMap.cpp" />
     <ClCompile Include="States\PlayState.cpp" />
     <ClCompile Include="Utils\AnimatedSprite.cpp" />
     <ClCompile Include="GameManager\GameManager.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Map\Map.cpp" />
-    <ClCompile Include="Map\MapLoader.cpp" />
     <ClCompile Include="States\State.cpp" />
     <ClCompile Include="Utils\Animation.cpp" />
     <ClCompile Include="Utils\Camera.cpp" />
-    <ClCompile Include="Utils\MathUtils.cpp" />
     <ClCompile Include="Utils\MTileMap.cpp" />
     <ClCompile Include="Utils\Utils.cpp" />
+    <ClCompile Include="Utils\VectorUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Combat\CombatHandler.h" />
-    <ClInclude Include="Entities\Enemy.h" />
+    <ClInclude Include="..\..\..\..\Visual Studio 2013\Projects\HelecopterRescue\HelecopterRescue\Utils\Utils.h" />
+    <ClInclude Include="..\..\..\..\Visual Studio 2013\Projects\HelecopterRescue\HelecopterRescue\Utils\VectorUtils.h" />
     <ClInclude Include="Entities\Entity.h" />
     <ClInclude Include="Entities\Player.h" />
-    <ClInclude Include="GUI\GUI.h" />
     <ClInclude Include="Map\TiledMap.h" />
     <ClInclude Include="RapidXML\rapidxml.hpp" />
     <ClInclude Include="RapidXML\rapidxml_iterators.hpp" />
@@ -115,17 +111,14 @@
     <ClInclude Include="STP\include\STP\TMXLoader.hpp" />
     <ClInclude Include="Utils\AnimatedSprite.hpp" />
     <ClInclude Include="Constants\Constants.h" />
-    <ClInclude Include="Entities\Entities.h" />
     <ClInclude Include="GameManager\GameManager.h" />
-    <ClInclude Include="Map\Map.h" />
-    <ClInclude Include="Map\MapLoader.h" />
     <ClInclude Include="States\GameStates.h" />
     <ClInclude Include="States\State.h" />
     <ClInclude Include="Utils\Animation.hpp" />
     <ClInclude Include="Utils\Camera.h" />
-    <ClInclude Include="Utils\MathUtils.h" />
     <ClInclude Include="Utils\MTileMap.h" />
     <ClInclude Include="Utils\Utils.h" />
+    <ClInclude Include="Utils\VectorUtils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

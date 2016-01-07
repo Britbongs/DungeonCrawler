@@ -1,28 +1,30 @@
-#pragma once 
-
 #ifndef ENTITY_H
 #define ENTITY_H
 
 #include <SFML\Graphics.hpp> 
-#include "..\Utils\Animation.hpp"
-#include "..\Utils\AnimatedSprite.hpp"
-#include "..\Constants\Constants.h"
+#include <assert.h>
+#include "..\Utils\VectorUtils.h"
 
 class Entity
+	: public sf::Drawable, public sf::Transformable
 {
 public:
-	Entity(sf::RenderWindow*, sf::RenderTexture*);
-	virtual ~Entity();
-	virtual bool init() = 0; 
-	virtual void render() const = 0; 
-	virtual void update(const sf::Time&) = 0;
-	//virtual void handleEvents(sf::Event&, const sf::Time&) = 0;
+	Entity();
+	Entity(sf::PrimitiveType, int vertexCount);
+	void setVertexLocalPosition(int, sf::Vector2f);
+	void setVertexColour(int, sf::Color);
+	void setVertexTextureCoords(int, sf::Vector2f);
+	void setTexture(sf::Texture*);
+	void resizeArray(int);
+	void setPrimitiveType(sf::PrimitiveType);
+	int getVertexCount() const;
+	sf::Vector2f getVertexGlobalPosition(int) const;
+	sf::Vector2f getNormal(int, int) const;
+	sf::FloatRect getLocalBounds() const;
 	sf::FloatRect getGlobalBounds() const;
-	sf::Vector2f getPosition() const;
-protected: 
-	sf::RenderWindow* window_ = nullptr; 
-	sf::RenderTexture* renderTexture_ = nullptr;
-	sf::Texture texture_; 
-	sf::Sprite sprite_;
+private:
+	virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
+	sf::VertexArray vertices_;
+	sf::Texture* texture_;
 };
 #endif
