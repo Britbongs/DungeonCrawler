@@ -118,8 +118,9 @@ void TiledMap::setTMXFile(Map* m)
 	currentTMXMap_ = m;
 }
 
-bool TiledMap::isPlaceFree(sf::Vector2f location) const
+bool TiledMap::isPlaceFree(const sf::FloatRect& collider) const
 {
+	/*  
 	sf::Vector2i pos(static_cast<int>(location.x), static_cast<int> (location.y));
 	bool found(false);
 	int counter(0);
@@ -133,6 +134,7 @@ bool TiledMap::isPlaceFree(sf::Vector2f location) const
 			tilesetID = getTilesetID(currentTMXMap_->getLayer()[counter]->data[pos.y][pos.x]);
 			tileID = currentTMXMap_->getLayer()[counter]->data[pos.y][pos.x] - firstGID_[tilesetID];
 		}
+		++counter;
 	}
 
 	if (tilesetID != -1 && tileID != -1)
@@ -140,6 +142,38 @@ bool TiledMap::isPlaceFree(sf::Vector2f location) const
 		if (currentTMXMap_->getTileSet()[tilesetID]->getTilePropertyName(tileID) == "blocked" &&
 			currentTMXMap_->getTileSet()[tilesetID]->getTilePropertyValue(tileID) == "false")
 			return(true);
+	}*/ 
+
+	int counter(0); 
+	sf::FloatRect col;
+	col.width = 64;
+	col.height = 64;
+
+	while (counter < currentTMXMap_->getLayer().size())
+	{
+		for (int i(0); i < currentTMXMap_->getLayer().data.size(); ++i)
+		{
+			for (int j(0); j < currentTMXMap_->getLayer().data[i].size(); ++j)
+			{
+				int id = currentTMXMap_->getLayer()[counter]->data[i][j]; //Get the global id of a tile
+				int tilesetID = getTilesetID( id ) ; //Convert this global id into a tileset id 
+				id = id - firstGID_[tilesetID]; //work out the local id of the tile in the tileset
+
+				std::string name = currentTMXMap_->getTilesets()[tilesetID]->getTilePropertyName(id); //Using it's local ID get the properties attached to it
+				if (name == "blocked" && currentTMXMap_->getTilesets[tilesetID]->getTilePropertyValue == "true") //If the property is blocked, and has a value of true
+				{
+					//create a collider at the tiles position
+					col.left = i * col.width; 
+					col.top = j * col.height; 
+					
+					//If the collider passed to the function intersects with a tile collider, we have a collision!
+					if (col.intersects(collider))
+						return(true);
+				}
+			}
+
+		}
+		++counter;
 	}
 
 	return(false);

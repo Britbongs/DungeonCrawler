@@ -1,4 +1,4 @@
-﻿Build started 07/01/2016 17:37:35.
+﻿Build started 07/01/2016 17:40:36.
      1>Project "C:\Users\Mace\Documents\GitHub\DungeonCrawler\Dungeon Crawler Game\Game\Game.vcxproj" on node 2 (Build target(s)).
      1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(942,5): warning MSB8027: Two or more files with the name of Utils.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are ..\..\..\..\Visual Studio 2013\Projects\HelecopterRescue\HelecopterRescue\Utils\Utils.cpp, Utils\Utils.cpp.
      1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(942,5): warning MSB8027: Two or more files with the name of VectorUtils.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are ..\..\..\..\Visual Studio 2013\Projects\HelecopterRescue\HelecopterRescue\Utils\VectorUtils.cpp, Utils\VectorUtils.cpp.
@@ -8,4 +8,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.05
+Time Elapsed 00:00:00.21

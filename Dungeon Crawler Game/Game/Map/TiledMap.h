@@ -19,7 +19,7 @@ public:
 	int getTileWidth() const; 
 	int getTileHeight() const;
 	void setTMXFile(Map*);
-	bool isPlaceFree(sf::Vector2f) const;
+	bool isPlaceFree(const sf::FloatRect& ) const;
 private:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	bool initVertexArrays(); //Setup the vector of vertex arrays
